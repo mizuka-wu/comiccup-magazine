@@ -1,1 +1,0 @@
-const photoshop = require("photoshop");
