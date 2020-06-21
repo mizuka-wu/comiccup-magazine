@@ -139,5 +139,9 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
     }
   ])
   // 主进程
-  main(folder)
+  try {
+    main(folder)
+  } catch (e) {
+    console.error(e)
+  }
 })()
