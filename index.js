@@ -109,13 +109,14 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
 
         /**
          * 输出meta信息
-         * 序号，本子名，社团序号，社团名字
+         * 序号，本子名，社团序号，社团名字，地址
          */
         metaInfo.push([
           bookIndex + 1, // 序号
           book.name, // 本子名
           book.groupId, // 社团序号
-          book.stallName // 社团名字
+          book.stallName, // 社团名字
+          targetPathName
         ].join(','))
       })
       const meta = fs.openSync(_path.join(pagesDirName, 'meta.csv'), 'w')
