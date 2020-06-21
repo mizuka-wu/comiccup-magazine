@@ -4,10 +4,11 @@ const imgType = require('img-type')
 var inquirer = require('inquirer')
 const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG } = require('./utils')
 
-const DEFAULT_TARGET_FOLDER = _path.join(__dirname, 'pages')
+const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
 const EACH_GROUP_SIZE = 4 * 5
 
 async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
+  console.log(targetFolder)
   if (!fs.existsSync(targetFolder)) {
     throw new Error('文件夹不存在')
   }
