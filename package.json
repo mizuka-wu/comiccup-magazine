@@ -5,18 +5,22 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "npx pkg index.js",
+    "build": "npx rollup -c",
+    "build-pkg": "npx pkg index.js",
     "build-mac": "npx pkg -t mac index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "mizuka-wu",
   "license": "MIT",
   "dependencies": {
     "img-type": "^0.1.16",
-    "inquirer": "^7.2.0",
-    "pkg": "^4.4.8"
+    "inquirer": "^7.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@rollup/plugin-babel": "^5.0.3",
+    "@rollup/plugin-node-resolve": "^8.0.1",
     "eslint": "^7.3.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.21.2",
@@ -24,6 +28,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "photoshop.d.ts": "^1.0.0",
+    "pkg": "^4.4.8",
     "rollup": "^2.17.1"
   }
 }

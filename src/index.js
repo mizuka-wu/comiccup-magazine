@@ -95,12 +95,16 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
   pageGroups.forEach(async (pageGroup, groupIndex) => {
     const dirName = _path.join('dist', `group${groupIndex}`)
     fs.mkdirSync(dirName)
+    const metaInfoConfig = {
+      [PAGE_POSITION.LEFT]: [],
+      [PAGE_POSITION.RIGHT]: []
+    }
     pageGroup.forEach((books, index) => {
       const positionName = getGroupPositon(index)
       const pagesDirName = _path.join(dirName, positionName)
       fs.mkdirSync(pagesDirName)
       const metaInfo = []
-      books.forEach(async (book, bookIndex) => {
+      books.forEach((book, bookIndex) => {
         const bookPath = book.path
         const buffer = fs.readFileSync(bookPath)
         const fileType = imgType.getTypeFromBuffer(buffer)
@@ -120,10 +124,23 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
           targetPathName, // 具体地址
           positionName // 方向
         ].join(','))
+
+        // 总的
+        metaInfoConfig[positionName].push({
+          order: bookIndex + 1,
+          name: book.name,
+          groupId: book.groupId,
+          stallName: book.stallName,
+          targetPathName
+        })
       })
       const meta = fs.openSync(_path.join(pagesDirName, `${positionName}-meta.csv`), 'w')
       fs.writeFileSync(meta, metaInfo.join('\n'))
     })
+    // 生成总配置文件
+    const metaConfigFile = fs.openSync(_path.join(dirName, 'meta.json'), 'w')
+    fs.writeFileSync(metaConfigFile, JSON.stringify(metaInfoConfig, null, 4))
+    // 生成脚本文件
   })
 
   console.log('整理完成')
