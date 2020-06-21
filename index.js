@@ -91,7 +91,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
     return groups
   }, [])
 
-  pageGroups.forEach((pageGroup, groupIndex) => {
+  pageGroups.forEach(async (pageGroup, groupIndex) => {
     const dirName = _path.join('dist', `group${groupIndex}`)
     fs.mkdirSync(dirName)
     pageGroup.forEach((books, index) => {
@@ -99,7 +99,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       const pagesDirName = _path.join(dirName, positionName)
       fs.mkdirSync(pagesDirName)
       const metaInfo = []
-      books.forEach((book, bookIndex) => {
+      books.forEach(async (book, bookIndex) => {
         const bookPath = book.path
         const buffer = fs.readFileSync(bookPath)
         const fileType = imgType.getTypeFromBuffer(buffer)
@@ -116,10 +116,11 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
           book.name, // 本子名
           book.groupId, // 社团序号
           book.stallName, // 社团名字
-          targetPathName
+          targetPathName, // 具体地址
+          positionName // 方向
         ].join(','))
       })
-      const meta = fs.openSync(_path.join(pagesDirName, 'meta.csv'), 'w')
+      const meta = fs.openSync(_path.join(pagesDirName, `${positionName}-meta.csv`), 'w')
       fs.writeFileSync(meta, metaInfo.join('\n'))
     })
   })
