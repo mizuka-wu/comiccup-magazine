@@ -3,8 +3,8 @@
 var rowNumber = 4 // 几行
 var colEachRow = 5 // 每行几个格子
 var cellOffset = 372 // 每个格子的偏移量
-var cellImageWidth = new UnitValue(328 + ' pixels') // 每张图片的宽度
-var cellImageHeight = new UnitValue(437 + ' pixels') // 每张图片的高度
+var cellImageWidth = 328 // 每张图片的宽度
+var cellImageHeight = 437 // 每张图片的高度
 var IMAGE_FILES_SETS_NAME = '本子封面'
 var BODY_NAME = '中间'
 var CONTAINER_NAME = '组 1'
@@ -422,7 +422,7 @@ imageFilesSets.name = IMAGE_FILES_SETS_NAME
 imageFilesSets.move(app.activeDocument.layerSets.getByName(BODY_NAME), ElementPlacement.PLACEAFTER)
 
 // for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
-for (var imageIndex = 0; imageIndex < 2; imageIndex++) {
+for (var imageIndex = 0; imageIndex < 1; imageIndex++) {
   var imageFile = imageFiles[imageIndex]
   var filePath = imageFile.targetPathName
   var imageDocument = app.open(File(filePath))
@@ -435,6 +435,13 @@ for (var imageIndex = 0; imageIndex < 2; imageIndex++) {
   var imageArtVertical = imageArtHorizontal.duplicate()
   imageArtHorizontal.name = imageIndex + 1 + '横'
   imageArtVertical.name = imageIndex + 1 + '竖'
-//   imageArtHorizontal.resize()
+  var bounds = imageArtHorizontal.bounds
+  // 获取图片大小，计算调整比例
+  var imageWidth = Number(bounds[2].toString().replace(' px', '')) - Number(bounds[0].toString().replace(' px', ''))
+  var imageHeight = Number(bounds[3].toString().replace(' px', '')) - Number(bounds[1].toString().replace(' px', ''))
+  var widthScale = cellImageWidth / imageWidth * 100
+  var heightScale = cellImageHeight / imageHeight * 100
+  imageArtHorizontal.resize(widthScale, widthScale)
+  imageArtVertical.resize(heightScale, heightScale)
   // 放到制定位置
 }
