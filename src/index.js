@@ -3,6 +3,7 @@ const _path = require('path')
 const imgType = require('img-type')
 var inquirer = require('inquirer')
 const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG } = require('./utils')
+const generatePhotoshopScript = require('./photoshop')
 
 const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
 const EACH_GROUP_SIZE = 4 * 5
@@ -138,10 +139,10 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       const meta = fs.openSync(_path.join(pagesDirName, `${positionName}-meta.csv`), 'w')
       fs.writeFileSync(meta, metaInfo.join('\n'))
     })
-    // 生成总配置文件
-    const metaConfigFile = fs.openSync(_path.join(dirName, 'meta.json'), 'w')
-    fs.writeFileSync(metaConfigFile, JSON.stringify(metaInfoConfig, null, 4))
     // 生成脚本文件
+    // generatePhotoshopScript
+    const scriptFile = fs.openSync(_path.join(dirName, 'comiccup.jsx'), 'w')
+    fs.writeFileSync(scriptFile, generatePhotoshopScript(metaInfoConfig))
   })
 
   console.log('整理完成')
