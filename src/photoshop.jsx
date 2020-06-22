@@ -408,7 +408,7 @@ for (var rightIndex = 0; rightIndex < right.length; rightIndex++) {
   layerSet.artLayers[artLayerIndex].textItem.contents = rightBook.name
   // 改对应的社团名 因为摊位名称不是成组复制的，需要通过取余数来判断偏移(x2因为空了一行), 顺便减去left所占用的格子（20 * 2）
   var rightBookGroupIdIndex = (root.artLayers.length - ROW_NUMBER * COL_EACH_ROW * 2) - 1 - (rightIndex % COL_EACH_ROW) - Math.floor(rightIndex / COL_EACH_ROW) * COL_EACH_ROW * 2
-  var rightBookStallNameIndex = groupIdIndex - COL_EACH_ROW
+  var rightBookStallNameIndex = rightBookGroupIdIndex - COL_EACH_ROW
   root.artLayers[rightBookGroupIdIndex].textItem.contents = rightBook.groupId
   root.artLayers[rightBookStallNameIndex].textItem.contents = rightBook.stallName
   // 同一个社团则隐藏名字
