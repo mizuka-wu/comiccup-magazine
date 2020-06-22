@@ -457,7 +457,7 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
 
   var targetY =
     FIRST_CELL_IMAGE_Y +
-    Math.floor(imageIndex / COL_EACH_ROW) * CELL_HEIGHT_OFFSET // 跨行多少次
+    Math.floor((imageIndex % (COL_EACH_ROW * ROW_NUMBER)) / COL_EACH_ROW) * CELL_HEIGHT_OFFSET // 和一页总数进行取余，然后判断跨行多少次
 
   // 改变大小然后放到对应格子
   var positionedImageSets = [imageArtHorizontal, imageArtVertical]
