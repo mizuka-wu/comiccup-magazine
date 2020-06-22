@@ -25,8 +25,6 @@ var CONTAINER_NAME = '组 1'
 var lastGroupId = null
 
 var message = 'CP自动填字脚本'
-message += ',当前Photoshop版本为： ' + app.version + '\r\r'
-message += '点击确定后，开始工作，运行非常慢，请耐心等待...'
 
 var meta = ${meta}
 
