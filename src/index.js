@@ -9,7 +9,7 @@ const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
 const EACH_GROUP_SIZE = 4 * 5
 
 async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
-  console.log(targetFolder)
+  console.log('正在整理文件，请稍后。。。。')
   if (!fs.existsSync(targetFolder)) {
     throw new Error('文件夹不存在')
   }
