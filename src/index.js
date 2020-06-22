@@ -131,7 +131,8 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
           name: book.name,
           groupId: book.groupId,
           stallName: book.stallName,
-          targetPathName
+          targetPathName: _path.resolve(process.cwd(), targetPathName),
+          position: positionName
         })
       })
       const meta = fs.openSync(_path.join(pagesDirName, `${positionName}-meta.csv`), 'w')
