@@ -4,7 +4,7 @@ var ROW_NUMBER = 4 // 几行
 var COL_EACH_ROW = 5 // 每行几个格子
 
 var CELL_WIDTH_OFFSET = 372 // 每个格子的横向偏移量
-var CELL_HEIGHT_OFFSET = 618 // 每个格子的纵向偏移量
+var CELL_HEIGHT_OFFSET = 616 // 每个格子的纵向偏移量
 var CELL_CROSS_PAGE_OFFSET = 1974 // 跨页偏移量
 
 // 这个凭经验了 需要更好的找中心点方案
@@ -22,7 +22,7 @@ var lastGroupId = null
 
 var message = 'CP自动填字脚本'
 message += ',当前Photoshop版本为： ' + app.version + '\r\r'
-message += '即将开始工作，可能比较慢...'
+message += '点击确定后，开始工作，运行非常慢，请耐心等待...'
 
 var meta = {
   left: [
