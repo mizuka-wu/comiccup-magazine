@@ -115,3 +115,5 @@ public/
 .DS_Store
 
 pages/
+
+test/

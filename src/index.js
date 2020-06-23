@@ -148,20 +148,4 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
   console.log('整理完成')
 }
 
-// 主方法
-(async function () {
-  const { folder } = await inquirer.prompt([
-    {
-      type: 'input',
-      name: 'folder',
-      message: '请输入任务的文件夹地址',
-      default: DEFAULT_TARGET_FOLDER
-    }
-  ])
-  // 主进程
-  try {
-    main(folder)
-  } catch (e) {
-    console.error(e)
-  }
-})()
+main()
