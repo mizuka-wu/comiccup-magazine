@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "npx rollup -c",
-    "build-pkg": "npx pkg src/index.js --out-dir=pkg -o comiccup",
+    "build-pkg": "npx pkg -t node10-mac,node10-win src/index.js -o pkg/comiccup",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "mizuka-wu",
