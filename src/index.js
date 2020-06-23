@@ -1,7 +1,6 @@
 const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
-var inquirer = require('inquirer')
 const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
