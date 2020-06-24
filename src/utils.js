@@ -39,5 +39,6 @@ module.exports = {
   delDir,
   getGroupPositon,
   PAGE_POSITION,
-  NAME_REG
+  NAME_REG,
+  BOOK_NAME_REG
 }
