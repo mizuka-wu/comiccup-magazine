@@ -26,9 +26,14 @@ function delDir (path) {
 }
 
 /**
- * 捕获分组名字的
+ * 社团号 全名，社团名， 摊位名
  */
 const NAME_REG = /\(([A-Z]\d+-?[A-Z]?\d+)\)\[(.*?)\](.*)/
+
+/**
+ * 名字和类型
+ */
+const BOOK_NAME_REG = /(.*?)\(\d+\).*?\.(.*)/
 
 module.exports = {
   delDir,

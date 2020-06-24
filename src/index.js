@@ -1,7 +1,7 @@
 const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
-const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG } = require('./utils')
+const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG, BOOK_NAME_REG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
 const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
@@ -43,7 +43,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
   groups.forEach(group => {
     const { path, stallName, groupId } = group
     const books = fs.readdirSync(path).map(book => {
-      const [bookFullName, bookName, type] = book.match(/(.*?)\(\d+\).*?\.(.*)/)
+      const [bookFullName, bookName, type] = book.match(BOOK_NAME_REG)
       return {
         path: _path.join(path, bookFullName),
         name: bookName,
