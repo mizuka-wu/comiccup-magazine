@@ -1,7 +1,7 @@
 const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
-const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG, BOOK_NAME_REG } = require('./utils')
+const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
 const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
@@ -106,9 +106,17 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       const metaInfo = []
       books.forEach((book, bookIndex) => {
         const bookPath = book.path
-        const buffer = fs.readFileSync(bookPath)
-        const fileType = imgType.getTypeFromBuffer(buffer)
-        const targetPathName = _path.join(pagesDirName, `${bookIndex + 1}.${fileType}`)
+        let buffer = fs.readFileSync(bookPath)
+        let targetPathName = _path.join(pagesDirName, `${bookIndex + 1}.`)
+        if (book.type === 'txt') {
+          targetPathName = targetPathName + 'png'
+          // 输出空白图片
+          buffer = Buffer.from(EMPTY_PNG, 'base64')
+        } else {
+          const fileType = imgType.getTypeFromBuffer(buffer)
+          targetPathName = targetPathName + fileType
+        }
+
         const img = fs.openSync(targetPathName, 'w')
         fs.writeFileSync(img, buffer)
 

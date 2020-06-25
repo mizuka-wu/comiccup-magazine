@@ -35,10 +35,16 @@ const NAME_REG = /\(([A-Z]\d+-?[A-Z]?\d+)\)\[(.*?)\](.*)/
  */
 const BOOK_NAME_REG = /(.*?)\(\d+\).*?\.(.*)/
 
+/**
+ * 空白图片
+ */
+const EMPTY_PNG = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWP4////fwAJ+wP9CNHoHgAAAABJRU5ErkJggg=='
+
 module.exports = {
   delDir,
   getGroupPositon,
   PAGE_POSITION,
   NAME_REG,
-  BOOK_NAME_REG
+  BOOK_NAME_REG,
+  EMPTY_PNG
 }
