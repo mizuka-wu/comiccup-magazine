@@ -1,7 +1,7 @@
 const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
-const { PAGE_POSITION, getGroupPositon, delDir, NAME_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
+const { PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
 const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
@@ -44,6 +44,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
           groupName: groupName
         }
       })
+      .sort(handleSort)
 
     /**
    * 获取所有书籍
