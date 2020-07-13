@@ -28,7 +28,7 @@ function delDir (path) {
 /**
  * 社团号 全名，社团名， 摊位名
  */
-const NAME_REG = /\(([A-Z]\d+-?[A-Z]?\d+)\)\[(.*?)\](.*)/
+const NAME_REG = /\(([\u4e00-\u9fa5A-Z]\d+-?[\u4e00-\u9fa5A-Z]?\d+)\)\[(.*?)\](.*)/
 
 /**
  * 名字和类型
