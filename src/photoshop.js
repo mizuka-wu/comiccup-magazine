@@ -116,9 +116,7 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
   imageDocument.close()
   var imageArtHorizontal = app.activeDocument.paste() // 横向版本的
   imageArtHorizontal.move(imageFilesSets, ElementPlacement.INSIDE)
-  var imageArtVertical = imageArtHorizontal.duplicate()
   imageArtHorizontal.name = imageIndex + 1 + '横'
-  imageArtVertical.name = imageIndex + 1 + '竖'
   var bounds = imageArtHorizontal.bounds
   // 获取图片大小，计算调整比例
   var imageWidth = Number(bounds[2].toString().replace(' px', '')) - Number(bounds[0].toString().replace(' px', ''))
@@ -137,8 +135,8 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
     Math.floor((imageIndex % (COL_EACH_ROW * ROW_NUMBER)) / COL_EACH_ROW) * CELL_HEIGHT_OFFSET // 和一页总数进行取余，然后判断跨行多少次
 
   // 改变大小然后放到对应格子
-  var positionedImageSets = [imageArtHorizontal, imageArtVertical]
-  var imageScale = [imageArtHorizontal.resize(widthScale, widthScale), imageArtVertical.resize(heightScale, heightScale)]
+  var positionedImageSets = [imageArtHorizontal]
+  var imageScale = [imageArtHorizontal.resize(widthScale, widthScale)]
   for (var positionedImageIndex = 0; positionedImageIndex < positionedImageSets.length; positionedImageIndex++) {
     var scale = imageScale[positionedImageIndex]
     var positionedImage = positionedImageSets[positionedImageIndex]
