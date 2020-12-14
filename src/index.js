@@ -118,6 +118,11 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
         const metaInfo = []
         books.forEach((book, bookIndex) => {
           const bookPath = book.path
+          try {
+            fs.readFileSync(bookPath)
+          } catch (e) {
+            throw new Error(bookPath + '无法正确读取')
+          }
           let buffer = fs.readFileSync(bookPath)
           let targetPathName = _path.join(pagesDirName, `${bookIndex + 1}.`)
           if (book.type === 'txt') {
