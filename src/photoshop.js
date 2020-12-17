@@ -19,7 +19,7 @@ var CELL_IMAGE_WIDTH = 328 // 每张图片的宽度
 var CELL_IMAGE_HEIGHT = 437 // 每张图片的高度
 var IMAGE_FILES_SETS_NAME = '本子封面'
 var BODY_NAME = '中间'
-var CONTAINER_NAME = '组 1'
+var CONTAINER_NAME = '组1'
 
 // 哨兵
 var lastGroupId = null
