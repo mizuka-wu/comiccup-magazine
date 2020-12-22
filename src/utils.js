@@ -3,7 +3,7 @@ const fs = require('fs')
 const SORT_ORDER = [
   // 26字母
   ...Object.keys(Array.from(new Array(26))).map(key => String.fromCharCode(+key + 65)),
-  ...['甲', '乙', '丙', '丁', '戊', '己', '庚', '风']]
+  ...['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬']]
 
 const PAGE_POSITION = {
   LEFT: 'left',
