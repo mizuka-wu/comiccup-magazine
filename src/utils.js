@@ -77,5 +77,6 @@ module.exports = {
   PAGE_POSITION,
   NAME_REG,
   BOOK_NAME_REG,
-  EMPTY_PNG
+  EMPTY_PNG,
+  GROUP_ID_REG
 }

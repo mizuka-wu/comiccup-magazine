@@ -1,11 +1,20 @@
 const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
-const { PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
+const { PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
 const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
 const EACH_GROUP_SIZE = 4 * 5
+
+function getCorrectGroupId (groupId) {
+  const match = groupId.match(new RegExp(GROUP_ID_REG, 'g'))
+  if (match.length > 1) {
+    // 需要将第二个替换成-
+    return `${match[0]}-${match[1].substr(1)}`
+  }
+  return groupId
+}
 
 function writeError (error) {
   fs.writeFileSync(_path.join('.', 'error.log'), error.message || error)
@@ -33,14 +42,15 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       /**
       * 获取，全名，社团名， 摊位名
       */
-        if (!group.match(NAME_REG)) {
+        if (!group.match()) {
           throw new Error(`${group} 社团名命名错误`)
         }
         const [path, groupId, groupName, stallName] = group.match(NAME_REG)
+
         return {
           stallName: stallName || groupName, // 没有摊位取社团
           path: `${targetFolder}/${path}`,
-          groupId,
+          groupId: getCorrectGroupId(groupId),
           groupName: groupName
         }
       })
