@@ -17,6 +17,7 @@ function getCorrectGroupId (groupId) {
 }
 
 function writeError (error) {
+  console.error(error)
   fs.writeFileSync(_path.join('.', 'error.log'), error.message || error)
 }
 
@@ -42,9 +43,10 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       /**
       * 获取，全名，社团名， 摊位名
       */
-        if (!group.match()) {
+        if (!group.match(NAME_REG)) {
           throw new Error(`${group} 社团名命名错误`)
         }
+        console.log(group, group.match(NAME_REG))
         const [path, groupId, groupName, stallName] = group.match(NAME_REG)
 
         return {
