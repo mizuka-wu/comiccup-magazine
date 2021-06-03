@@ -3,13 +3,7 @@
 
 name: Node.js Build
 
-on:
-  commit:
-    branches: [ master ]
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [ push, pull_request ]
 
 jobs:
   build:
