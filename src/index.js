@@ -47,7 +47,6 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
         if (!group.match(NAME_REG)) {
           throw new Error(`${group} 社团名命名错误`)
         }
-        console.log(group, group.match(NAME_REG))
         const [path, groupId, groupName, stallName] = group.match(NAME_REG)
 
         return {
@@ -60,8 +59,8 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       .sort(handleSort)
 
     /**
-   * 获取所有书籍
-   */
+     * 根据每个社团，生成 社团/本子的路径
+     */
     groups.forEach(group => {
       const { path, stallName, groupId } = group
       const books = fs.readdirSync(path).map(book => {
@@ -99,8 +98,8 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
     fs.mkdirSync('./dist')
 
     /**
-   * 左右分组后的页面
-   */
+     * 对组进行左右分组
+     */
     const pageGroups = pages.reduce((groups, pages, index) => {
       const pagePositon = getGroupPositon(index)
 
@@ -117,6 +116,9 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       return groups
     }, [])
 
+    /**
+     * 生成meta文件
+     */
     pageGroups.forEach(async (pageGroup, groupIndex) => {
       const dirName = _path.join('dist', `group${groupIndex}`)
       fs.mkdirSync(dirName)
@@ -124,12 +126,12 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
         [PAGE_POSITION.LEFT]: [],
         [PAGE_POSITION.RIGHT]: []
       }
-      pageGroup.forEach((books, index) => {
+      await Promise.all(pageGroup.map(async (books, index) => {
         const positionName = getGroupPositon(index)
         const pagesDirName = _path.join(dirName, positionName)
         fs.mkdirSync(pagesDirName)
         const metaInfo = []
-        books.forEach(async (book, bookIndex) => {
+        await Promise.all(books.map(async (book, bookIndex) => {
           const bookPath = book.path
           try {
             fs.readFileSync(bookPath)
@@ -178,10 +180,10 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
             targetPathName: _path.resolve(process.cwd(), targetPathName),
             position: positionName
           })
-        })
+        }))
         const meta = fs.openSync(_path.join(pagesDirName, `${positionName}-meta.csv`), 'w')
         fs.writeFileSync(meta, metaInfo.join('\n'))
-      })
+      }))
       // 生成脚本文件
       // generatePhotoshopScript
       const scriptFile = fs.openSync(_path.join(dirName, 'comiccup.jsx'), 'w')

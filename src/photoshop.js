@@ -1,7 +1,7 @@
 const { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH } = require('./utils')
 module.exports = function (meta, CONTAINER_NAME = '组 1') {
   if (typeof meta === 'object') {
-    meta = JSON.stringify(meta, null, 4)
+    meta = JSON.stringify(meta, null, 2)
   }
   return `/* eslint-disable no-undef */
 // 相关变量定义
