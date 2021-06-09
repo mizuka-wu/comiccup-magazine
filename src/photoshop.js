@@ -1,8 +1,9 @@
 const { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH } = require('./utils')
-module.exports = function (meta, CONTAINER_NAME = '组1') {
+module.exports = function (meta, options = {}) {
   if (typeof meta === 'object') {
     meta = JSON.stringify(meta, null, 2)
   }
+  const { CONTAINER_NAME = '组1', photo = true } = options
   return `/* eslint-disable no-undef */
 // 相关变量定义
 var ROW_NUMBER = 4 // 几行
@@ -98,6 +99,7 @@ for (var rightIndex = 0; rightIndex < right.length; rightIndex++) {
   lastGroupId = rightBook.groupId
 }
 
+${photo ? `
 /**
  * 图片填充
  */
@@ -152,5 +154,6 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
     )
   }
 }
+` : ''}
 `
 }
