@@ -1,5 +1,5 @@
 const { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH } = require('./utils')
-module.exports = function (meta) {
+module.exports = function (meta, CONTAINER_NAME = '组 1') {
   if (typeof meta === 'object') {
     meta = JSON.stringify(meta, null, 4)
   }
@@ -20,7 +20,7 @@ var CELL_IMAGE_WIDTH = ${CELL_IMAGE_WIDTH} // 每张图片的宽度
 var CELL_IMAGE_HEIGHT = ${CELL_IMAGE_HEIGHT} // 每张图片的高度
 var IMAGE_FILES_SETS_NAME = '本子封面'
 var BODY_NAME = '中间'
-var CONTAINER_NAME = '组 1'
+var CONTAINER_NAME = '${CONTAINER_NAME}'
 
 // 哨兵
 var lastGroupId = null
