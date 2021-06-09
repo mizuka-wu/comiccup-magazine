@@ -1,3 +1,4 @@
+const { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH } = require('./utils')
 module.exports = function (meta) {
   if (typeof meta === 'object') {
     meta = JSON.stringify(meta, null, 4)
@@ -15,8 +16,8 @@ var CELL_CROSS_PAGE_OFFSET = 1974 // 跨页偏移量
 var FIRST_CELL_IMAGE_X = 310 // 第一个需要填入的格子的中心点位置X
 var FIRST_CELL_IMAGE_Y = 705 // 第一个需要填入的格子的中心点位置Y
 
-var CELL_IMAGE_WIDTH = 328 // 每张图片的宽度
-var CELL_IMAGE_HEIGHT = 437 // 每张图片的高度
+var CELL_IMAGE_WIDTH = ${CELL_IMAGE_WIDTH} // 每张图片的宽度
+var CELL_IMAGE_HEIGHT = ${CELL_IMAGE_HEIGHT} // 每张图片的高度
 var IMAGE_FILES_SETS_NAME = '本子封面'
 var BODY_NAME = '中间'
 var CONTAINER_NAME = '组 1'

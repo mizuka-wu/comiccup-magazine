@@ -1,7 +1,8 @@
 const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
-const { PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
+const Jimp = require('jimp')
+const { CELL_IMAGE_WIDTH, CELL_IMAGE_HEIGHT, PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
 const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
@@ -128,7 +129,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
         const pagesDirName = _path.join(dirName, positionName)
         fs.mkdirSync(pagesDirName)
         const metaInfo = []
-        books.forEach((book, bookIndex) => {
+        books.forEach(async (book, bookIndex) => {
           const bookPath = book.path
           try {
             fs.readFileSync(bookPath)
@@ -144,6 +145,12 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
           } else {
             const fileType = imgType.getTypeFromBuffer(buffer)
             targetPathName = targetPathName + fileType
+
+            // 图片大小调整
+            const jimp = await Jimp.read(buffer)
+            jimp.scaleToFit(CELL_IMAGE_WIDTH * 2, CELL_IMAGE_HEIGHT * 2)
+
+            buffer = jimp.getBuffer(Jimp[`MIME_${fileType.toUpperCase()}`])
           }
 
           const img = fs.openSync(targetPathName, 'w')
