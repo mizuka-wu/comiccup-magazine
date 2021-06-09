@@ -13,7 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "img-type": "^0.1.16",
-    "inquirer": "^7.2.0"
+    "inquirer": "^7.2.0",
+    "jimp": "^0.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",

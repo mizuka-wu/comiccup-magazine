@@ -11,6 +11,9 @@ const PAGE_POSITION = {
   RIGHT: 'right'
 }
 
+const CELL_IMAGE_WIDTH = 328 // 每张图片的宽度
+const CELL_IMAGE_HEIGHT = 437 // 每张图片的高度
+
 function getGroupPositon (index) {
   return index % 2 ? 'right' : 'left'
 }
@@ -75,6 +78,8 @@ module.exports = {
   delDir,
   getGroupPositon,
   handleSort,
+  CELL_IMAGE_HEIGHT,
+  CELL_IMAGE_WIDTH,
   PAGE_POSITION,
   NAME_REG,
   BOOK_NAME_REG,
