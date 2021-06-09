@@ -12,6 +12,7 @@
   "author": "mizuka-wu",
   "license": "MIT",
   "dependencies": {
+    "escape-path-with-spaces": "^1.0.0",
     "img-type": "^0.1.16",
     "inquirer": "^7.2.0",
     "jimp": "^0.16.1"

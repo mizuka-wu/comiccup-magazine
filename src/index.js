@@ -2,6 +2,7 @@ const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
 const Jimp = require('jimp')
+const escape = require('escape-path-with-spaces')
 const { CELL_IMAGE_WIDTH, PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
@@ -180,7 +181,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
             name: book.name,
             groupId: book.groupId,
             stallName: book.stallName,
-            targetPathName: _path.resolve(process.cwd(), targetPathName),
+            targetPathName: escape(_path.resolve(process.cwd(), targetPathName)),
             position: positionName
           })
         }))
