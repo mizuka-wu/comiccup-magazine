@@ -150,7 +150,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
             const jimp = await Jimp.read(buffer)
             jimp.scaleToFit(CELL_IMAGE_WIDTH * 2, CELL_IMAGE_HEIGHT * 2)
 
-            buffer = jimp.getBuffer(Jimp[`MIME_${fileType.toUpperCase()}`])
+            buffer = await jimp.getBufferAsync(Jimp[`MIME_${fileType.toUpperCase()}`])
           }
 
           const img = fs.openSync(targetPathName, 'w')
