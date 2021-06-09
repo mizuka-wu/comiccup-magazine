@@ -2,7 +2,7 @@ const fs = require('fs')
 const _path = require('path')
 const imgType = require('img-type')
 const Jimp = require('jimp')
-const { CELL_IMAGE_WIDTH, CELL_IMAGE_HEIGHT, PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
+const { CELL_IMAGE_WIDTH, PAGE_POSITION, getGroupPositon, delDir, handleSort, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG, EMPTY_PNG } = require('./utils')
 const generatePhotoshopScript = require('./photoshop')
 
 const DEFAULT_TARGET_FOLDER = _path.join('.', 'pages')
@@ -190,7 +190,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       // 生成脚本文件
       const scriptFile = fs.openSync(_path.join(dirName, 'comiccup.jsx'), 'w')
       const scriptContent = generatePhotoshopScript(metaInfoConfig, {
-        photo: false
+        photo: true
       })
       fs.writeFileSync(scriptFile, scriptContent)
     }))
