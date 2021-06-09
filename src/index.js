@@ -188,9 +188,11 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
         fs.writeFileSync(meta, metaInfo.join('\n'))
       }))
       // 生成脚本文件
-      // generatePhotoshopScript
       const scriptFile = fs.openSync(_path.join(dirName, 'comiccup.jsx'), 'w')
-      fs.writeFileSync(scriptFile, generatePhotoshopScript(metaInfoConfig))
+      const scriptContent = generatePhotoshopScript(metaInfoConfig, {
+        photo: false
+      })
+      fs.writeFileSync(scriptFile, scriptContent)
     }))
 
     console.log('整理完成')
