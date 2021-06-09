@@ -14,8 +14,8 @@ var CELL_HEIGHT_OFFSET = 616 // 每个格子的纵向偏移量
 var CELL_CROSS_PAGE_OFFSET = 1974 // 跨页偏移量
 
 // 这个凭经验了 需要更好的找中心点方案
-var FIRST_CELL_IMAGE_X = 310 // 第一个需要填入的格子的中心点位置X
-var FIRST_CELL_IMAGE_Y = 705 // 第一个需要填入的格子的中心点位置Y
+var FIRST_CELL_IMAGE_X = -1735 // 第一个需要填入的格子的中心点位置X 310
+var FIRST_CELL_IMAGE_Y = -805 // 第一个需要填入的格子的中心点位置Y 705
 
 var CELL_IMAGE_WIDTH = ${CELL_IMAGE_WIDTH} // 每张图片的宽度
 var CELL_IMAGE_HEIGHT = ${CELL_IMAGE_HEIGHT} // 每张图片的高度
@@ -131,13 +131,9 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
     FIRST_CELL_IMAGE_Y +
     Math.floor((imageIndex % (COL_EACH_ROW * ROW_NUMBER)) / COL_EACH_ROW) * CELL_HEIGHT_OFFSET // 和一页总数进行取余，然后判断跨行多少次
 
-  var bounds = imageArtHorizontal.bounds
-  
-  var centerX = (Number(bounds[2].toString().replace(' px', '')) - Number(bounds[0].toString().replace(' px', ''))) / 2 + Number(bounds[0].toString().replace(' px', ''))
-  var centerY = (Number(bounds[3].toString().replace(' px', '')) - Number(bounds[1].toString().replace(' px', ''))) / 2 + Number(bounds[1].toString().replace(' px', ''))
   imageArtHorizontal.translate(
-    new UnitValue((targetX - centerX) + ' pixels'),
-    new UnitValue((targetY - centerY) + ' pixels')
+    new UnitValue((targetX) + ' pixels'),
+    new UnitValue((targetY) + ' pixels')
   )
 }
 ` : ''}
