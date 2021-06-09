@@ -120,12 +120,6 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
   var imageArtHorizontal = app.activeDocument.paste() // 横向版本的
   imageArtHorizontal.move(imageFilesSets, ElementPlacement.INSIDE)
   imageArtHorizontal.name = imageIndex + 1 + '横'
-  var bounds = imageArtHorizontal.bounds
-  // 获取图片大小，计算调整比例
-  var imageWidth = Number(bounds[2].toString().replace(' px', '')) - Number(bounds[0].toString().replace(' px', ''))
-  var imageHeight = Number(bounds[3].toString().replace(' px', '')) - Number(bounds[1].toString().replace(' px', ''))
-  var widthScale = CELL_IMAGE_WIDTH / imageWidth * 100
-  var heightScale = CELL_IMAGE_HEIGHT / imageHeight * 100
   // 最终放到的位置的中心点
 
   var targetX =
@@ -137,22 +131,14 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
     FIRST_CELL_IMAGE_Y +
     Math.floor((imageIndex % (COL_EACH_ROW * ROW_NUMBER)) / COL_EACH_ROW) * CELL_HEIGHT_OFFSET // 和一页总数进行取余，然后判断跨行多少次
 
-  // 改变大小然后放到对应格子
-  var positionedImageSets = [imageArtHorizontal]
-  var imageScale = [imageArtHorizontal.resize(widthScale, widthScale)]
-  for (var positionedImageIndex = 0; positionedImageIndex < positionedImageSets.length; positionedImageIndex++) {
-    var scale = imageScale[positionedImageIndex]
-    var positionedImage = positionedImageSets[positionedImageIndex]
-    // positionedImage.resize(scale, scale) // 改大小
-    var positionedImageBounds = positionedImage.bounds
-    // 获取中心点，x + width/2， y + height / 2
-    var centerX = (Number(positionedImageBounds[2].toString().replace(' px', '')) - Number(positionedImageBounds[0].toString().replace(' px', ''))) / 2 + Number(positionedImageBounds[0].toString().replace(' px', ''))
-    var centerY = (Number(positionedImageBounds[3].toString().replace(' px', '')) - Number(positionedImageBounds[1].toString().replace(' px', ''))) / 2 + Number(positionedImageBounds[1].toString().replace(' px', ''))
-    positionedImage.translate(
-      new UnitValue((targetX - centerX) + ' pixels'),
-      new UnitValue((targetY - centerY) + ' pixels')
-    )
-  }
+  var bounds = imageArtHorizontal.bounds
+  
+  var centerX = (Number(bounds[2].toString().replace(' px', '')) - Number(bounds[0].toString().replace(' px', ''))) / 2 + Number(bounds[0].toString().replace(' px', ''))
+  var centerY = (Number(bounds[3].toString().replace(' px', '')) - Number(bounds[1].toString().replace(' px', ''))) / 2 + Number(bounds[1].toString().replace(' px', ''))
+  imageArtHorizontal.translate(
+    new UnitValue((targetX - centerX) + ' pixels'),
+    new UnitValue((targetY - centerY) + ' pixels')
+  )
 }
 ` : ''}
 `
