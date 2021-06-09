@@ -1,5 +1,5 @@
 const { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH } = require('./utils')
-module.exports = function (meta, CONTAINER_NAME = '组 1') {
+module.exports = function (meta, CONTAINER_NAME = '组1') {
   if (typeof meta === 'object') {
     meta = JSON.stringify(meta, null, 2)
   }
@@ -141,7 +141,7 @@ for (var imageIndex = 0; imageIndex < imageFiles.length; imageIndex++) {
   for (var positionedImageIndex = 0; positionedImageIndex < positionedImageSets.length; positionedImageIndex++) {
     var scale = imageScale[positionedImageIndex]
     var positionedImage = positionedImageSets[positionedImageIndex]
-    positionedImage.resize(scale, scale) // 改大小
+    // positionedImage.resize(scale, scale) // 改大小
     var positionedImageBounds = positionedImage.bounds
     // 获取中心点，x + width/2， y + height / 2
     var centerX = (Number(positionedImageBounds[2].toString().replace(' px', '')) - Number(positionedImageBounds[0].toString().replace(' px', ''))) / 2 + Number(positionedImageBounds[0].toString().replace(' px', ''))

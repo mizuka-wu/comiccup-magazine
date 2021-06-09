@@ -119,7 +119,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
     /**
      * 生成meta文件
      */
-    pageGroups.forEach(async (pageGroup, groupIndex) => {
+    await Promise.all(pageGroups.map(async (pageGroup, groupIndex) => {
       const dirName = _path.join('dist', `group${groupIndex}`)
       fs.mkdirSync(dirName)
       const metaInfoConfig = {
@@ -148,10 +148,13 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
             const fileType = imgType.getTypeFromBuffer(buffer)
             targetPathName = targetPathName + fileType
 
-            // 图片大小调整
-            const jimp = await Jimp.read(buffer)
-            jimp.scaleToFit(CELL_IMAGE_WIDTH * 2, CELL_IMAGE_HEIGHT * 2)
+            // 输出原图
+            const originImg = fs.openSync(targetPathName.replace(`.${fileType}`, `-origin.${fileType}`), 'w')
+            fs.writeFileSync(originImg, buffer)
 
+            // 图片大小调整, 适配宽度
+            const jimp = await Jimp.read(buffer)
+            jimp.scale(CELL_IMAGE_WIDTH / jimp.getWidth())
             buffer = await jimp.getBufferAsync(Jimp[`MIME_${fileType.toUpperCase()}`])
           }
 
@@ -188,7 +191,7 @@ async function main (targetFolder = DEFAULT_TARGET_FOLDER) {
       // generatePhotoshopScript
       const scriptFile = fs.openSync(_path.join(dirName, 'comiccup.jsx'), 'w')
       fs.writeFileSync(scriptFile, generatePhotoshopScript(metaInfoConfig))
-    })
+    }))
 
     console.log('整理完成')
   } catch (e) {
