@@ -9,7 +9,7 @@
 <script>
 import { PAGE_ROW, PAGE_COLUMN } from '../helper/consts'
 export default {
-  name: 'HelloWorld',
+  name: 'PagePreviewer',
   props: {
     pages: {
       type: Array,
