@@ -10,7 +10,7 @@
       <div class="main" v-loading="active === 1">
         <!-- 打开文件夹 -->
         <div v-if="active === 0">
-          <el-button type="danger">打开任务文件夹</el-button>
+          <el-button @click="openDir" type="danger">打开任务文件夹</el-button>
           <div style="color: #aaaaaa;margin-top: 8px;">文件夹内应该包含本次任务的 摊位文件夹</div>
         </div>
       </div>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'App',
@@ -41,6 +42,15 @@ export default {
         photo: true
       },
       active: 0
+    }
+  },
+  methods: {
+    /**
+     * 打开文件夹
+     */
+    openDir () {
+      const dirPath = ipcRenderer.sendSync('openDir')
+      console.log(dirPath)
     }
   }
 }

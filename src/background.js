@@ -1,22 +1,25 @@
+/* eslint-disable no-unused-vars */
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, dialog, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
+let lastSelectedPath = app.getPath('downloads')
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
-async function createWindow() {
+async function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      
+
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
@@ -34,6 +37,19 @@ async function createWindow() {
     win.loadURL('app://./index.html')
   }
 }
+
+ipcMain.on('openDir', (e) => {
+  // e.returnValue = 1
+  const browserWindow = BrowserWindow.fromBrowserView(e.sender)
+  const selectedPaths = dialog.showOpenDialogSync(browserWindow, {
+    title: '打开任务文件夹',
+    defaultPath: lastSelectedPath,
+    properties: ['openDirectory']
+  }) || [lastSelectedPath]
+  const [selectedPath] = selectedPaths
+  lastSelectedPath = selectedPath || lastSelectedPath
+  e.returnValue = selectedPath
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
