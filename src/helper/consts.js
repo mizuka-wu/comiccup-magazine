@@ -9,6 +9,9 @@ export const PAGE_POSITION = {
   RIGHT: 'right'
 }
 
+export const PAGE_ROW = 4
+export const PAGE_COLUMN = 5
+
 export const CELL_IMAGE_WIDTH = 328 // 每张图片的宽度
 export const CELL_IMAGE_HEIGHT = 437 // 每张图片的高度
 

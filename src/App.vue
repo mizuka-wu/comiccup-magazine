@@ -32,6 +32,7 @@
 
 <script>
 import { ipcRenderer } from 'electron'
+import getDayTaskMeta from './helper/meta'
 
 export default {
   name: 'App',
@@ -48,9 +49,19 @@ export default {
     /**
      * 打开文件夹
      */
-    openDir () {
-      const dirPath = ipcRenderer.sendSync('openDir')
-      console.log(dirPath)
+    async openDir () {
+      const targetFolderPath = ipcRenderer.sendSync('openDir')
+      if (targetFolderPath) {
+        try {
+          this.active++
+          const result = await getDayTaskMeta(targetFolderPath)
+          console.log(result)
+        } catch (e) {
+          this.active = 0
+          console.error(e)
+          this.$message.error(e.message)
+        }
+      }
     }
   }
 }
