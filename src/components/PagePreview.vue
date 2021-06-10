@@ -1,6 +1,6 @@
 <template>
   <el-tabs class="tabs" tab-position="bottom">
-    <el-tab-pane class="page" :label="`第${index}页`" v-for="(page, index) of pages" :key="index">
+    <el-tab-pane class="page" :label="`第${index + 1}页`" v-for="(page, index) of pages" :key="index">
       <div class="container">
         <div class="group" v-for="(group, position) of page" :key="position">
           <!-- 具体本子 -->
