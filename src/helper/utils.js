@@ -1,0 +1,50 @@
+import fs from 'fs'
+import { SORT_ORDER, GROUP_ID_REG } from './consts'
+
+export function getGroupPositon (index) {
+  return index % 2 ? 'right' : 'left'
+}
+
+/**
+ * 删除某个文件夹
+ * @param {string} path
+ */
+export function delDir (path) {
+  let files = []
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path)
+    files.forEach(function (file, index) {
+      const curPath = path + '/' + file
+      if (fs.statSync(curPath).isDirectory()) {
+        delDir(curPath)
+      } else {
+        fs.unlinkSync(curPath)
+      }
+    })
+    fs.rmdirSync(path)
+  }
+}
+
+/**
+ * sort规则
+ */
+
+export function handleSort (prev, next) {
+  const prevReg = prev.groupId.match(GROUP_ID_REG)
+  const nextReg = next.groupId.match(GROUP_ID_REG)
+  if (prevReg && nextReg) {
+    // eslint-disable-next-line
+      const [_prev, prevAreaId, prevAreaOrder] = prevReg
+    // eslint-disable-next-line
+      const [_next, nextAreaId, nextAreaOrder] = nextReg
+    // 不同区域
+    if (prevAreaId !== nextAreaId) {
+      return SORT_ORDER.indexOf(prevAreaId) - SORT_ORDER.indexOf(nextAreaId)
+    } else {
+      // 同区域
+      return (+prevAreaOrder) - (+nextAreaOrder)
+    }
+  } else {
+    return 0
+  }
+}
