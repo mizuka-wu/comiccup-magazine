@@ -46,14 +46,27 @@
       <el-button
         :disabled="active !== 2"
         @click="saveDir"
+        size="mini"
         type="primary"
       >生成脚本</el-button>
+      <el-popconfirm
+        @confirm="restart"
+        title="当前编辑状态将丢失，继续？"
+      >
+        <el-button
+          :disabled="active === 0"
+          size="mini"
+          slot="reference"
+          style="margin-left: 4px"
+          type="danger"
+        >重新选择</el-button>
+      </el-popconfirm>
     </el-aside>
   </el-container>
 </template>
 
 <script>
-import { ipcRenderer } from 'electron'
+import { ipcRenderer, shell } from 'electron'
 import getDayTaskMeta from './helper/meta'
 import outputDayTask from './helper/generate'
 import PagePreview from './components/PagePreview.vue'
@@ -87,10 +100,9 @@ export default {
           this.pageGroups = result
           this.active++
         } catch (e) {
-          this.active = 0
-          this.pageGroups = []
           console.error(e)
           this.$message.error(e.message || e)
+          this.restart()
         }
       }
     },
@@ -109,7 +121,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
       try {
-        await outputDayTask(
+        const outputPath = await outputDayTask(
           this.pageGroups,
           targetFolderPath,
           {
@@ -120,12 +132,36 @@ export default {
           }
         )
         loading.close()
-        this.$message.success('导出成功，请前往photoshop运行对应的jsx文件')
+        // 提示
+        this.$notify({
+          title: '成功',
+          message: '请打开PSD文件，脚本并选择对应文件夹下的jsx文件运行，请勿移动导出的文件夹',
+          type: 'success'
+        })
+
+        // 回到重新选择页面
+        // this.restart()
+
+        // 是否打开文件夹
+        this.$confirm('是否打开生成文件夹', '生成成功', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success'
+        })
+          .then(() => {
+            // 打开导出的文件夹
+            shell.openPath(outputPath)
+          })
+          .catch(e => null)
       } catch (e) {
         loading.close()
         this.$message.error(e.message || e)
         console.error(e)
       }
+    },
+    restart () {
+      this.pageGroups = []
+      this.active = 0
     }
   }
 }
