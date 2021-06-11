@@ -26,9 +26,16 @@ export function delDir (path) {
 }
 
 /**
+ * 获取一个页分组的名字
+ */
+export function getPageGroupName (pageGroup) {
+  console.log(getPageGroupName)
+  return 1
+}
+
+/**
  * sort规则
  */
-
 export function handleSort (prev, next) {
   const prevReg = prev.groupId.match(GROUP_ID_REG)
   const nextReg = next.groupId.match(GROUP_ID_REG)
