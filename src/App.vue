@@ -121,16 +121,23 @@ export default {
         background: 'rgba(0, 0, 0, 0.7)'
       })
       try {
+        const processNotify = this.$notify({
+          title: '导出进度',
+          message: '已经完成',
+          position: 'bottom-right',
+          duration: 0
+        })
         const outputPath = await outputDayTask(
           this.pageGroups,
           targetFolderPath,
           {
             ...this.scriptOptions,
             onProcess: function (completed) {
-              console.log(completed)
+              processNotify.message = completed
             }
           }
         )
+        processNotify.close()
         loading.close()
         // 提示
         this.$notify({
