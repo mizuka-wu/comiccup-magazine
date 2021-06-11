@@ -29,8 +29,11 @@ export function delDir (path) {
  * 获取一个页分组的名字
  */
 export function getPageGroupName (pageGroup) {
-  console.log(getPageGroupName)
-  return 1
+  const [leftPage, rightPage] = pageGroup
+  const firstBook = leftPage[0]
+  const lastBook = rightPage[rightPage.length - 1]
+
+  return `${firstBook.groupId.split('-')[0]}-${lastBook.groupId.replace(/\d?-/, '')}`
 }
 
 /**
