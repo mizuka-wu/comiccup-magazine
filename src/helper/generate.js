@@ -47,32 +47,32 @@ export default async function (pageGroups, targetDir, options = {}) {
       const metaInfo = []
       await Promise.all(books.map(async (book, bookIndex) => {
         const bookPath = book.path
-        // if (!fs.existsSync(bookPath)) {
-        //   throw new Error(`${bookPath} 不存在或者无法读取`)
-        // }
-        // let buffer = fs.readFileSync(bookPath)
+        if (!fs.existsSync(bookPath)) {
+          throw new Error(`${bookPath} 不存在或者无法读取`)
+        }
+        let buffer = fs.readFileSync(bookPath)
         let targetPathName = _path.join(pagesDirName, `${bookIndex + 1}.`)
-        // if (book.type === 'txt') {
-        //   targetPathName = targetPathName + 'png'
-        //   // 输出空白图片
-        //   buffer = Buffer.from(EMPTY_PNG, 'base64')
-        // } else {
-        //   const fileType = imgType.getTypeFromBuffer(buffer)
-        //   targetPathName = targetPathName + fileType
+        if (book.type === 'txt') {
+          targetPathName = targetPathName + 'png'
+          // 输出空白图片
+          buffer = Buffer.from(EMPTY_PNG, 'base64')
+        } else {
+          const fileType = imgType.getTypeFromBuffer(buffer)
+          targetPathName = targetPathName + fileType
 
-        //   // 如果是出图模式，会先生成一张原图 + 导入的图，否则直接copy到目录即可
-        //   if (options.photo) {
-        //     const originImg = fs.openSync(targetPathName.replace(`.${fileType}`, `-origin.${fileType}`), 'w')
-        //     fs.writeFileSync(originImg, buffer)
-        //     // 图片大小调整, 适配宽度
-        //     const jimp = await Jimp.read(buffer)
-        //     jimp.scale(CELL_IMAGE_WIDTH / jimp.getWidth())
-        //     buffer = await jimp.getBufferAsync(Jimp[`MIME_${fileType.toUpperCase()}`])
-        //   }
-        // }
+          // 如果是出图模式，会先生成一张原图 + 导入的图，否则直接copy到目录即可
+          if (options.photo) {
+            const originImg = fs.openSync(targetPathName.replace(`.${fileType}`, `-origin.${fileType}`), 'w')
+            fs.writeFileSync(originImg, buffer)
+            // 图片大小调整, 适配宽度
+            const jimp = await Jimp.read(buffer)
+            jimp.scale(CELL_IMAGE_WIDTH / jimp.getWidth())
+            buffer = await jimp.getBufferAsync(Jimp[`MIME_${fileType.toUpperCase()}`])
+          }
+        }
 
-        // const img = fs.openSync(targetPathName, 'w')
-        // fs.writeFileSync(img, buffer)
+        const img = fs.openSync(targetPathName, 'w')
+        fs.writeFileSync(img, buffer)
 
         /**
          * 输出meta信息
