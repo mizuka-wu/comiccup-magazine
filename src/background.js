@@ -19,11 +19,9 @@ async function createWindow () {
     width: 1080,
     height: 600,
     webPreferences: {
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true
-      }
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true
     }
   })
 
