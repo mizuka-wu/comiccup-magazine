@@ -26,7 +26,7 @@
           <el-checkbox v-model="scriptOptions.photo"></el-checkbox>
         </el-form-item>
       </el-form>
-      <el-button :disabled="active !== 2" type="primary">生成脚本</el-button>
+      <el-button @click="saveDir" :disabled="active !== 2" type="primary">生成脚本</el-button>
     </el-aside>
   </el-container>
 </template>
@@ -34,6 +34,7 @@
 <script>
 import { ipcRenderer } from 'electron'
 import getDayTaskMeta from './helper/meta'
+import outputDayTask from './helper/generate'
 import PagePreview from './components/PagePreview.vue'
 
 export default {
@@ -70,6 +71,22 @@ export default {
           console.error(e)
           this.$message.error(e.message)
         }
+      }
+    },
+    /**
+     * 保存到文件夹
+     */
+    async saveDir () {
+      const targetFolderPath = ipcRenderer.sendSync('saveDir')
+      if (!targetFolderPath) {
+        return 0
+      }
+      try {
+        await outputDayTask(this.pages, targetFolderPath)
+        this.$message.success('导出成功，请前往photoshop运行对应的jsx文件')
+      } catch (e) {
+        console.error(e)
+        this.$messsage.error(e.message)
       }
     }
   }

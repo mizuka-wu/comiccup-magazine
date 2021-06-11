@@ -39,7 +39,6 @@ async function createWindow () {
 }
 
 ipcMain.on('openDir', (e) => {
-  // e.returnValue = 1
   const browserWindow = BrowserWindow.fromBrowserView(e.sender)
   const selectedPaths = dialog.showOpenDialogSync(browserWindow, {
     title: '打开任务文件夹',
@@ -48,6 +47,16 @@ ipcMain.on('openDir', (e) => {
   }) || [lastSelectedPath]
   const [selectedPath] = selectedPaths
   lastSelectedPath = selectedPath || lastSelectedPath
+  e.returnValue = selectedPath
+})
+
+ipcMain.on('saveDir', (e) => {
+  const browserWindow = BrowserWindow.fromBrowserView(e.sender)
+  const selectedPaths = dialog.showOpenDialogSync(browserWindow, {
+    title: '保存脚本和资源',
+    properties: ['openDirectory']
+  }) || []
+  const [selectedPath] = selectedPaths
   e.returnValue = selectedPath
 })
 
