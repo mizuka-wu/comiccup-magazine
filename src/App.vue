@@ -26,16 +26,19 @@
           <el-checkbox v-model="scriptOptions.photo"></el-checkbox>
         </el-form-item>
       </el-form>
-      <el-button :disabled="active !== 2" @click="saveDir" size="mini" type="primary">生成脚本</el-button>
-      <el-popconfirm @confirm="restart" title="当前编辑状态将丢失，继续？">
-        <el-button
-          :disabled="active === 0"
-          size="mini"
-          slot="reference"
-          style="margin-left: 4px"
-          type="danger"
-        >重新选择</el-button>
-      </el-popconfirm>
+      <div>
+        <el-button :disabled="active !== 2" @click="saveDir" size="mini" type="primary">生成脚本</el-button>
+        <el-popconfirm @confirm="restart" title="当前编辑状态将丢失，继续？">
+          <el-button
+            :disabled="active === 0"
+            size="mini"
+            slot="reference"
+            style="margin-left: 4px"
+            type="danger"
+          >重新选择</el-button>
+        </el-popconfirm>
+      </div>
+      <div class="preview"></div>
     </el-aside>
   </el-container>
 </template>
@@ -183,5 +186,15 @@ body,
   border-left: 1px solid #eaeaea;
   height: 100%;
   width: 220px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview {
+  height: auto;
+  flex: 1;
+  overflow: auto;
+  padding-top: 4px;
+  box-sizing: border-box;
 }
 </style>
