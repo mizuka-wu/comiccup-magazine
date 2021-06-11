@@ -41,6 +41,7 @@
 </template>
 
 <script>
+/* eslint-disable no-unused-vars */
 import { ipcRenderer, shell } from 'electron'
 import getDayTaskMeta from './helper/meta'
 import outputDayTask from './helper/generate'
@@ -84,64 +85,64 @@ export default {
     /**
      * 保存到文件夹
      */
-    async saveDir () {
+    saveDir () {
       const targetFolderPath = ipcRenderer.sendSync('saveDir')
       if (!targetFolderPath) {
         return 0
       }
-      console.log(1)
       const loading = this.$loading({
         lock: true,
         text: '生成中',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
-      console.log(2)
-      try {
-        const processNotify = this.$notify({
-          title: '导出进度',
-          message: '已经完成',
-          position: 'bottom-right',
-          duration: 0
-        })
-        const outputPath = await outputDayTask(
-          this.pageGroups,
-          targetFolderPath,
-          {
-            ...this.scriptOptions,
-            onProcess: function (completed) {
-              processNotify.message = completed
+      const processNotify = this.$notify({
+        title: '导出进度',
+        message: '正在准备导出。。。',
+        position: 'bottom-right',
+        duration: 0
+      })
+      setTimeout(async () => {
+        try {
+          const outputPath = await outputDayTask(
+            this.pageGroups,
+            targetFolderPath,
+            {
+              ...this.scriptOptions,
+              onProcess: function (completed) {
+                processNotify.message = completed
+              }
             }
-          }
-        )
-        processNotify.close()
-        loading.close()
-        // 提示
-        this.$notify({
-          title: '成功',
-          message: '请打开PSD文件，脚本并选择对应文件夹下的jsx文件运行，请勿移动导出的文件夹',
-          type: 'success'
-        })
-
-        // 是否打开文件夹
-        this.$confirm('是否打开生成文件夹', '生成成功', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'success'
-        })
-          .then(() => {
-            // 打开导出的文件夹
-            shell.openPath(outputPath)
+          )
+          processNotify.close()
+          loading.close()
+          // 提示
+          this.$notify({
+            title: '成功',
+            message: '请打开PSD文件，脚本并选择对应文件夹下的jsx文件运行，请勿移动导出的文件夹',
+            type: 'success'
           })
-          .catch(e => null)
 
-        // 回到重新选择页面
-        // this.restart()
-      } catch (e) {
-        loading.close()
-        this.$message.error(e.message || e)
-        console.error(e)
-      }
+          // 是否打开文件夹
+          this.$confirm('是否打开生成文件夹', '生成成功', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'success'
+          })
+            .then(() => {
+            // 打开导出的文件夹
+              shell.openPath(outputPath)
+            })
+            .catch(e => null)
+
+          // 回到重新选择页面
+          this.restart()
+        } catch (e) {
+          loading.close()
+          this.$message.error(e.message || e)
+          console.error(e)
+        }
+      }, 500)
     },
     restart () {
       this.pageGroups = []
