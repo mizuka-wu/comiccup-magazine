@@ -103,7 +103,11 @@ export default {
         return 0
       }
       try {
-        await outputDayTask(this.pageGroups, targetFolderPath)
+        await outputDayTask(
+          this.pageGroups,
+          targetFolderPath,
+          this.scriptOptions
+        )
         this.$message.success('导出成功，请前往photoshop运行对应的jsx文件')
       } catch (e) {
         console.error(e)
