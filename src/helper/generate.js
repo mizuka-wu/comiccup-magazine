@@ -105,4 +105,5 @@ export default async function (pageGroups, targetDir, options = {}) {
     })
     fs.writeFileSync(scriptFile, scriptContent)
   }))
+  return dir
 }
