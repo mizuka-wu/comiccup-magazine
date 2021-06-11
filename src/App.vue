@@ -1,41 +1,24 @@
 <template>
   <el-container id="app">
     <el-main class="main-container">
-      <el-steps
-        :active="active"
-        finish-status="success"
-      >
+      <el-steps :active="active" finish-status="success">
         <el-step title="选择文件夹"></el-step>
         <el-step title="生成排序配置"></el-step>
         <el-step title="生成脚本"></el-step>
       </el-steps>
       <!-- 步骤显示 -->
-      <div
-        class="main"
-        v-loading="active === 1"
-      >
+      <div class="main" v-loading="active === 1">
         <!-- 打开文件夹 -->
         <div v-if="active === 0">
-          <el-button
-            @click="openDir"
-            type="danger"
-          >打开任务文件夹</el-button>
+          <el-button @click="openDir" type="danger">打开任务文件夹</el-button>
           <div style="color: #aaaaaa;margin-top: 8px;">文件夹内应该包含本次任务的 摊位文件夹</div>
         </div>
-        <PagePreview
-          :pageGroups="pageGroups"
-          v-if="active === 2"
-        />
+        <PagePreview :pageGroups="pageGroups" v-if="active === 2" />
       </div>
     </el-main>
     <el-aside class="options">
       <h2>脚本配置</h2>
-      <el-form
-        :model="scriptOptions"
-        label-position="left"
-        label-width="100px"
-        size="mini"
-      >
+      <el-form :model="scriptOptions" label-position="left" label-width="100px" size="mini">
         <el-form-item label="容器名">
           <el-input v-model="scriptOptions.containerName"></el-input>
         </el-form-item>
@@ -43,16 +26,8 @@
           <el-checkbox v-model="scriptOptions.photo"></el-checkbox>
         </el-form-item>
       </el-form>
-      <el-button
-        :disabled="active !== 2"
-        @click="saveDir"
-        size="mini"
-        type="primary"
-      >生成脚本</el-button>
-      <el-popconfirm
-        @confirm="restart"
-        title="当前编辑状态将丢失，继续？"
-      >
+      <el-button :disabled="active !== 2" @click="saveDir" size="mini" type="primary">生成脚本</el-button>
+      <el-popconfirm @confirm="restart" title="当前编辑状态将丢失，继续？">
         <el-button
           :disabled="active === 0"
           size="mini"
