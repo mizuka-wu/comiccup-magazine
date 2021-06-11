@@ -90,7 +90,7 @@ export default {
           this.active = 0
           this.pageGroups = []
           console.error(e)
-          this.$message.error(e.message)
+          this.$message.error(e.message || e)
         }
       }
     },
@@ -102,16 +102,29 @@ export default {
       if (!targetFolderPath) {
         return 0
       }
+      const loading = this.$loading({
+        lock: true,
+        text: '生成中',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       try {
         await outputDayTask(
           this.pageGroups,
           targetFolderPath,
-          this.scriptOptions
+          {
+            ...this.scriptOptions,
+            onProcess: function (completed) {
+              console.log(completed)
+            }
+          }
         )
+        loading.close()
         this.$message.success('导出成功，请前往photoshop运行对应的jsx文件')
       } catch (e) {
+        loading.close()
+        this.$message.error(e.message || e)
         console.error(e)
-        this.$messsage.error(e.message)
       }
     }
   }
