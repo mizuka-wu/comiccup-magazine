@@ -1,8 +1,5 @@
 <template>
-  <el-tabs
-    class="tabs"
-    tab-position="bottom"
-  >
+  <el-tabs class="tabs" tab-position="bottom">
     <el-tab-pane
       :key="index"
       :label="getPageGroupName(pageGroup)"
@@ -10,35 +7,20 @@
       v-for="(pageGroup, index) of pageGroups"
     >
       <div class="container">
-        <div
-          :key="position"
-          class="page"
-          v-for="(page, position) of pageGroup"
-        >
+        <div :key="position" class="page" v-for="(page, position) of pageGroup">
           <!-- 具体本子 -->
           <div
+            @mouseleave="$emit('preview')"
+            @mouseover="$emit('preview', book)"
             :key="book.name + index"
             :style="{ width: `${100 / PAGE_COLUMN}%` }"
             class="book"
             v-for="(book, index) of page"
           >
-            <el-popover
-              :title="book.groupId"
-              placement="top-start"
-              trigger="hover"
-              width="400"
-            >
-              <el-form>
-                <el-form-item label="社团名字">{{ book.stallId }}{{ book.stallName }}</el-form-item>
-                <el-form-item label="类型">{{ book.type }}</el-form-item>
-                <el-form-item label="原始文件路径">{{ book.path }}</el-form-item>
-                <el-form-item label="本子名">{{ book.name }}</el-form-item>
-              </el-form>
-              <div slot="reference">
-                <div>{{ book.groupId }}</div>
-                <div>{{ book.name }}</div>
-              </div>
-            </el-popover>
+            <div>
+              <div>{{ book.groupId }}</div>
+              <div>{{ book.name }}</div>
+            </div>
           </div>
         </div>
       </div>
