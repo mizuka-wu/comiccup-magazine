@@ -40,6 +40,7 @@ ipcMain.on('openDir', (e) => {
   const browserWindow = BrowserWindow.fromBrowserView(e.sender)
   const selectedPaths = dialog.showOpenDialogSync(browserWindow, {
     title: '打开任务文件夹',
+    buttonLabel: '选择',
     defaultPath: lastSelectedPath,
     properties: ['openDirectory']
   }) || [lastSelectedPath]
@@ -52,6 +53,8 @@ ipcMain.on('saveDir', (e) => {
   const browserWindow = BrowserWindow.fromBrowserView(e.sender)
   const selectedPaths = dialog.showOpenDialogSync(browserWindow, {
     title: '保存脚本和资源',
+    buttonLabel: '导出到此处',
+    defaultPath: app.getPath('downloads'),
     properties: ['openDirectory']
   }) || []
   const [selectedPath] = selectedPaths
