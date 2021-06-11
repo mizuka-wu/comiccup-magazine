@@ -89,12 +89,14 @@ export default {
       if (!targetFolderPath) {
         return 0
       }
+      console.log(1)
       const loading = this.$loading({
         lock: true,
         text: '生成中',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
       })
+      console.log(2)
       try {
         const processNotify = this.$notify({
           title: '导出进度',
@@ -121,9 +123,6 @@ export default {
           type: 'success'
         })
 
-        // 回到重新选择页面
-        // this.restart()
-
         // 是否打开文件夹
         this.$confirm('是否打开生成文件夹', '生成成功', {
           confirmButtonText: '确定',
@@ -135,6 +134,9 @@ export default {
             shell.openPath(outputPath)
           })
           .catch(e => null)
+
+        // 回到重新选择页面
+        // this.restart()
       } catch (e) {
         loading.close()
         this.$message.error(e.message || e)

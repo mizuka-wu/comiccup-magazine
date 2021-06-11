@@ -6,10 +6,11 @@
 import fs from 'fs'
 import _path from 'path'
 import imgType from 'img-type'
+import Jimp from 'jimp'
+import escape from 'escape-path-with-spaces'
 import { FOLDER_NAME, PAGE_POSITION, EMPTY_PNG, CELL_IMAGE_WIDTH } from './consts'
 import { delDir, getGroupPositon, getPageGroupName } from './utils'
 import generatePhotoshopScript from './photoshopScript'
-import Jimp from 'jimp'
 
 /**
  * 生成文件到指定路径
