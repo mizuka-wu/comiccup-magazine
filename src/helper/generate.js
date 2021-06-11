@@ -6,9 +6,17 @@ import fs from 'fs'
 import _path from 'path'
 import imgType from 'img-type'
 import { FOLDER_NAME, PAGE_POSITION, EMPTY_PNG, CELL_IMAGE_WIDTH } from './consts'
-import { delDir, getGroupPositon } from './utils'
+import { delDir, getGroupPositon, getPageGroupName } from './utils'
+import generatePhotoshopScript from './photoshopScript'
 import Jimp from 'jimp'
-export default async function (pageGroups = [], targetDir, options = {}) {
+
+/**
+ * 生成文件到指定路径
+ * @param {*} pageGroups
+ * @param {*} targetDir
+ * @param {{ containerName: string, photo: boolean }} [options]
+ */
+export default async function (pageGroups, targetDir, options = {}) {
   const dir = _path.join(targetDir, FOLDER_NAME)
   if (fs.existsSync(dir)) {
     delDir(dir)
@@ -16,8 +24,8 @@ export default async function (pageGroups = [], targetDir, options = {}) {
   fs.mkdirSync(dir)
 
   // 生成导出的文件
-  await Promise.all(pageGroups.map(async (pageGroup, groupIndex) => {
-    const dirName = _path.join('dist', `group${groupIndex}`)
+  await Promise.all(pageGroups.map(async (pageGroup) => {
+    const dirName = _path.join(dir, getPageGroupName(pageGroup))
     fs.mkdirSync(dirName)
     const metaInfoConfig = {
       [PAGE_POSITION.LEFT]: [],
@@ -45,23 +53,24 @@ export default async function (pageGroups = [], targetDir, options = {}) {
           const fileType = imgType.getTypeFromBuffer(buffer)
           targetPathName = targetPathName + fileType
 
-          // 输出原图
-          const originImg = fs.openSync(targetPathName.replace(`.${fileType}`, `-origin.${fileType}`), 'w')
-          fs.writeFileSync(originImg, buffer)
-
-          // 图片大小调整, 适配宽度
-          const jimp = await Jimp.read(buffer)
-          jimp.scale(CELL_IMAGE_WIDTH / jimp.getWidth())
-          buffer = await jimp.getBufferAsync(Jimp[`MIME_${fileType.toUpperCase()}`])
+          // 如果是出图模式，会先生成一张原图 + 导入的图，否则直接copy到目录即可
+          if (options.photo) {
+            const originImg = fs.openSync(targetPathName.replace(`.${fileType}`, `-origin.${fileType}`), 'w')
+            fs.writeFileSync(originImg, buffer)
+            // 图片大小调整, 适配宽度
+            const jimp = await Jimp.read(buffer)
+            jimp.scale(CELL_IMAGE_WIDTH / jimp.getWidth())
+            buffer = await jimp.getBufferAsync(Jimp[`MIME_${fileType.toUpperCase()}`])
+          }
         }
 
         const img = fs.openSync(targetPathName, 'w')
         fs.writeFileSync(img, buffer)
 
         /**
-       * 输出meta信息
-       * 序号，本子名，社团序号，社团名字，地址
-       */
+         * 输出meta信息
+         * 序号，本子名，社团序号，社团名字，地址
+         */
         metaInfo.push([
           bookIndex + 1, // 序号
           book.name, // 本子名
@@ -70,6 +79,11 @@ export default async function (pageGroups = [], targetDir, options = {}) {
           targetPathName, // 具体地址
           positionName // 方向
         ].join(','))
+
+        // 输出回调
+        if (options.onProcess) {
+          options.onProcess(metaInfo.length)
+        }
 
         // 总的
         metaInfoConfig[positionName].push({
@@ -86,9 +100,10 @@ export default async function (pageGroups = [], targetDir, options = {}) {
     }))
     // 生成脚本文件
     const scriptFile = fs.openSync(_path.join(dirName, 'comiccup.jsx'), 'w')
-    // const scriptContent = generatePhotoshopScript(metaInfoConfig, {
-    //   photo: true
-    // })
-    // fs.writeFileSync(scriptFile, scriptContent)
+    const scriptContent = generatePhotoshopScript(metaInfoConfig, {
+      photo: options.photo,
+      CONTAINER_NAME: options.containerName
+    })
+    fs.writeFileSync(scriptFile, scriptContent)
   }))
 }
