@@ -13,7 +13,11 @@
           <el-button @click="openDir" type="danger">打开任务文件夹</el-button>
           <div style="color: #aaaaaa;margin-top: 8px;">文件夹内应该包含本次任务的 摊位文件夹</div>
         </div>
-        <PagePreview :pageGroups="pageGroups" v-if="active === 2" />
+        <PagePreview
+          @preview="book => previewBook = book"
+          :pageGroups="pageGroups"
+          v-if="active === 2"
+        />
       </div>
     </el-main>
     <el-aside class="options">
@@ -38,7 +42,14 @@
           >重新选择</el-button>
         </el-popconfirm>
       </div>
-      <div class="preview"></div>
+      <div class="preview">
+        <el-form v-if="previewBook" size="mini">
+          <el-form-item label="社团名字">{{ previewBook.stallId }}{{ previewBook.stallName }}</el-form-item>
+          <el-form-item label="类型">{{ previewBook.type }}</el-form-item>
+          <el-form-item label="本子名">{{ previewBook.name }}</el-form-item>
+          <el-form-item label="原始文件路径">{{ previewBook.path }}</el-form-item>
+        </el-form>
+      </div>
     </el-aside>
   </el-container>
 </template>
@@ -61,6 +72,7 @@ export default {
         containerName: '组1',
         photo: true
       },
+      previewBook: null,
       active: 0, // 0 未开始，1进行中，2预览可生成
       pageGroups: []
     }
@@ -148,6 +160,7 @@ export default {
       }, 500)
     },
     restart () {
+      this.previewBook = null
       this.pageGroups = []
       this.active = 0
     }
