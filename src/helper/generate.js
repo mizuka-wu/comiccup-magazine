@@ -24,6 +24,14 @@ export default async function (pageGroups, targetDir, options = {}) {
   }
   fs.mkdirSync(dir)
 
+  // 计算总数，分页组 / 分页 / 半页有多少
+  const total = pageGroups.reduce((total, page) => {
+    return total + page.reduce((pageTotal, books) => {
+      return pageTotal + books.length
+    }, 0)
+  }, 0)
+  let successed = 0
+
   // 生成导出的文件
   await Promise.all(pageGroups.map(async (pageGroup) => {
     const dirName = _path.join(dir, getPageGroupName(pageGroup))
@@ -81,7 +89,8 @@ export default async function (pageGroups, targetDir, options = {}) {
 
         // 输出回调
         if (options.onProcess) {
-          options.onProcess(metaInfo.length)
+          successed += 1
+          options.onProcess(`${successed} / ${total}`)
         }
 
         // 总的
