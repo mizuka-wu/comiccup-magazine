@@ -1,6 +1,8 @@
 {
   "name": "comiccup-magzine",
   "version": "0.1.0",
+  "author": "水华",
+  "description": "cp场刊脚本生成客户端",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
