@@ -1,24 +1,17 @@
-# comiccup-magzine
 
-## Project setup
-```
-npm install
-```
+# 如何快速查看本子对应的基本信息？
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+对应的left,right文件夹下有xxx-meta.csv 里面记录了 相关的信息，
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1-20对应left
 
-### Lints and fixes files
-```
-npm run lint
-```
+21-40对应right
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+每行用,分割，每个分割代表了
+
+序号
+本子名
+社团序号
+社团名字
+文件全路径
+左半边还是右半边
