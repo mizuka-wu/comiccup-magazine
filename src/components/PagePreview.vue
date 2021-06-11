@@ -1,16 +1,33 @@
 <template>
-  <el-tabs class="tabs" tab-position="bottom">
-    <el-tab-pane class="page" :label="`第${index + 1}页`" v-for="(page, index) of pages" :key="index">
+  <el-tabs
+    class="tabs"
+    tab-position="bottom"
+  >
+    <el-tab-pane
+      :key="index"
+      :label="getPageGroupName(pageGroup)"
+      class="page-group"
+      v-for="(pageGroup, index) of pageGroups"
+    >
       <div class="container">
-        <div class="group" v-for="(group, position) of page" :key="position">
+        <div
+          :key="position"
+          class="page"
+          v-for="(page, position) of pageGroup"
+        >
           <!-- 具体本子 -->
           <div
-            class="book"
-            :style="{ width: `${100 / PAGE_COLUMN}%` }"
-            v-for="(book, index) of group"
             :key="book.name + index"
+            :style="{ width: `${100 / PAGE_COLUMN}%` }"
+            class="book"
+            v-for="(book, index) of page"
           >
-            <el-popover placement="top-start" :title="book.groupId" width="400" trigger="hover">
+            <el-popover
+              :title="book.groupId"
+              placement="top-start"
+              trigger="hover"
+              width="400"
+            >
               <el-form>
                 <el-form-item label="社团名字">{{ book.stallId }}{{ book.stallName }}</el-form-item>
                 <el-form-item label="类型">{{ book.type }}</el-form-item>
@@ -31,10 +48,11 @@
 
 <script>
 import { PAGE_ROW, PAGE_COLUMN } from '../helper/consts'
+import { getPageGroupName } from '../helper/utils'
 export default {
   name: 'PagePreviewer',
   props: {
-    pages: {
+    pageGroups: {
       type: Array,
       default: () => []
     }
@@ -44,6 +62,9 @@ export default {
       PAGE_ROW,
       PAGE_COLUMN
     }
+  },
+  methods: {
+    getPageGroupName
   }
 }
 </script>
@@ -62,7 +83,7 @@ export default {
     flex: 1;
   }
 }
-.page {
+.page-group {
   height: 100%;
 }
 .container {
@@ -74,7 +95,7 @@ export default {
   overflow-y: auto;
 }
 
-.group {
+.page {
   width: 48%;
   display: flex;
   flex-direction: row;
@@ -85,6 +106,9 @@ export default {
   border: 1px solid #aaaaaa;
   background: #aaaaaa;
   margin: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   text-overflow: ellipsis;
   word-break: break-all;
   overflow: hidden;
