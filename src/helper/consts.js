@@ -15,6 +15,8 @@ export const PAGE_COLUMN = 5
 export const CELL_IMAGE_WIDTH = 328 // 每张图片的宽度
 export const CELL_IMAGE_HEIGHT = 437 // 每张图片的高度
 
+export const FOLDER_NAME = '场刊脚本'
+
 /**
  * 社团号 全名，社团名， 摊位名
  */
