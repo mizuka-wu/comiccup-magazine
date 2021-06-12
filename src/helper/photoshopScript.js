@@ -1,4 +1,4 @@
-import { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH } from './consts'
+import { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH, BODY_NAME } from './consts'
 export default function (meta, options = {}) {
   if (typeof meta === 'object') {
     meta = JSON.stringify(meta, null, 2)
@@ -17,7 +17,7 @@ var FIRST_CELL_IMAGE_Y = -805 // 第一个需要填入的格子的中心点位�
 var CELL_IMAGE_WIDTH = ${CELL_IMAGE_WIDTH} // 每张图片的宽度
 var CELL_IMAGE_HEIGHT = ${CELL_IMAGE_HEIGHT} // 每张图片的高度
 var IMAGE_FILES_SETS_NAME = '本子封面'
-var BODY_NAME = '中间'
+var BODY_NAME = '${BODY_NAME}'
 var CONTAINER_NAME = '${CONTAINER_NAME}'
 // 哨兵
 var lastGroupId = null

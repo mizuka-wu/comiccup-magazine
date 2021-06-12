@@ -40,6 +40,10 @@
       <el-form :model="scriptOptions" label-position="left" label-width="100px" size="mini">
         <el-form-item label="容器名">
           <el-input v-model="scriptOptions.containerName"></el-input>
+          <span style="color: #cccccc">
+            在psd模版内的分组名
+            <el-button type="text" @click="getContainerName">智能识别</el-button>
+          </span>
         </el-form-item>
         <el-form-item label="自动导入图片">
           <el-checkbox v-model="scriptOptions.photo"></el-checkbox>
@@ -217,6 +221,12 @@ export default {
     deleteGroupOrder (groupId) {
       const index = this.groupOrder.indexOf(groupId)
       this.groupOrder.splice(index, 1)
+    },
+    getContainerName () {
+      const containerName = ipcRenderer.sendSync('getContainerName')
+      if (containerName) {
+        this.scriptOptions.containerName = containerName
+      }
     }
   },
   watch: {
