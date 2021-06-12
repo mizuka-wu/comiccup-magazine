@@ -81,10 +81,10 @@ ipcMain.on('getContainerName', (e) => {
     psd.parse()
     const [bodyGroup] = psd.tree().childrenAtPath(BODY_NAME) || []
     if (bodyGroup) {
-      if (bodyGroup.hasChildren('中间')) {
-        e.returnValue = '中间'
+      if (bodyGroup.hasChildren('组1')) {
+        e.returnValue = '组1'
       } else {
-        e.returnValue = '中 间'
+        e.returnValue = '组 1'
       }
     } else {
       e.returnValue = null
