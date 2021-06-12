@@ -21,6 +21,7 @@
     "escape-path-with-spaces": "^1.0.0",
     "img-type": "^0.1.16",
     "jimp": "^0.16.1",
+    "psd.js": "^3.3.17",
     "vue": "^2.6.11",
     "vuedraggable": "^2.24.3"
   },

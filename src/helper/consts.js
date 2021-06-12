@@ -28,6 +28,8 @@ export const GROUP_ID_REG = /(\D)(\d*)/
  */
 export const BOOK_NAME_REG = /(.*?)\(\d+\).*?\.(.*)/
 
+export const BODY_NAME = '中间'
+
 /**
  * 空白图片
  */

@@ -5,6 +5,8 @@ import { app, protocol, BrowserWindow, dialog, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import ElectronStore from 'electron-store'
+import { BODY_NAME } from './helper/consts'
+import PSD from 'psd.js'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 ElectronStore.initRenderer()
@@ -62,6 +64,34 @@ ipcMain.on('saveDir', (e) => {
   }) || []
   const [selectedPath] = selectedPaths
   e.returnValue = selectedPath
+})
+
+ipcMain.on('getContainerName', (e) => {
+  const browserWindow = BrowserWindow.fromBrowserView(e.sender)
+  const [psdPath] = dialog.showOpenDialogSync(browserWindow, {
+    title: '打开PSD',
+    buttonLabel: '选择',
+    filters: [
+      { name: '模版', extensions: ['psd'] }
+    ],
+    properties: ['openFile']
+  }) || []
+  if (psdPath) {
+    const psd = PSD.fromFile(psdPath)
+    psd.parse()
+    const [bodyGroup] = psd.tree().childrenAtPath(BODY_NAME) || []
+    if (bodyGroup) {
+      if (bodyGroup.hasChildren('中间')) {
+        e.returnValue = '中间'
+      } else {
+        e.returnValue = '中 间'
+      }
+    } else {
+      e.returnValue = null
+    }
+  } else {
+    e.returnValue = null
+  }
 })
 
 // Quit when all windows are closed.
