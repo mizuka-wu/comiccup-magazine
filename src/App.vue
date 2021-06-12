@@ -12,6 +12,21 @@
         <div v-if="active === 0">
           <el-button @click="openDir" type="danger">打开任务文件夹</el-button>
           <div style="color: #aaaaaa;margin-top: 8px;">文件夹内应该包含本次任务的 摊位文件夹</div>
+          <div>
+            <h3>当前排序顺序</h3>
+            <draggable class="order" v-model="groupOrder">
+              <transition-group>
+                <el-tag v-for="groupId of groupOrder" :key="groupId">
+                  <div>{{ groupId }}</div>
+                  <div
+                    @click="deleteGroupOrder(groupId)"
+                    style="position: absolute;color: #000; right: 0;top:0;line-height:initial;height: 0;cursor: pointer;"
+                  >x</div>
+                </el-tag>
+              </transition-group>
+              <el-button slot="footer" @click="addGroupId" icon="el-icon-plus" size="small" />
+            </draggable>
+          </div>
         </div>
         <PagePreview
           @preview="book => previewBook = book"
@@ -60,10 +75,25 @@ import { ipcRenderer, shell } from 'electron'
 import getDayTaskMeta from './helper/meta'
 import outputDayTask from './helper/generate'
 import PagePreview from './components/PagePreview.vue'
+import Store from 'electron-store'
+import { SORT_ORDER } from './helper/consts'
+import Draggable from 'vuedraggable'
+
+const store = new Store({
+  schema: {
+    groupOrder: {
+      type: 'array'
+    }
+  },
+  defaults: {
+    groupOrder: SORT_ORDER
+  }
+})
 
 export default {
   name: 'App',
   components: {
+    Draggable,
     PagePreview
   },
   data () {
@@ -74,7 +104,8 @@ export default {
       },
       previewBook: null,
       active: 0, // 0 未开始，1进行中，2预览可生成
-      pageGroups: []
+      pageGroups: [],
+      groupOrder: store.get('groupOrder')
     }
   },
   methods: {
@@ -87,7 +118,7 @@ export default {
         this.pageGroups = []
         try {
           this.active++
-          const result = await getDayTaskMeta(targetFolderPath)
+          const result = await getDayTaskMeta(targetFolderPath, this.sortOrder)
           this.pageGroups = result
           this.active++
         } catch (e) {
@@ -163,6 +194,34 @@ export default {
       this.previewBook = null
       this.pageGroups = []
       this.active = 0
+    },
+    async addGroupId () {
+      this.$prompt('请输入区域名', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /\D/,
+        inputErrorMessage: '请输入正确的区域名，目前仅支持单个且非数字'
+      }).then(({ value }) => {
+        if (this.groupOrder.includes(value)) {
+          this.$message.error('重复输入！')
+        } else {
+          this.groupOrder.push(value)
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消输入'
+        })
+      })
+    },
+    deleteGroupOrder (groupId) {
+      const index = this.groupOrder.indexOf(groupId)
+      this.groupOrder.splice(index, 1)
+    }
+  },
+  watch: {
+    groupOrder (groupOrder) {
+      store.set('groupOrder', groupOrder)
     }
   }
 }
@@ -209,5 +268,13 @@ body,
   overflow: auto;
   padding-top: 4px;
   box-sizing: border-box;
+}
+
+.order {
+  .el-tag {
+    margin: 4px;
+    cursor: move;
+    position: relative;
+  }
 }
 </style>
