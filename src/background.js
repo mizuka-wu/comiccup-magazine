@@ -4,7 +4,10 @@
 import { app, protocol, BrowserWindow, dialog, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import ElectronStore from 'electron-store'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
+ElectronStore.initRenderer()
 
 let lastSelectedPath = app.getPath('downloads')
 

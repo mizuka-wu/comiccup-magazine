@@ -33,7 +33,7 @@ function getCorrectGroupId (groupId) {
         groupName: string
       }[]>}
  */
-export async function getGroupsFromPath (targetFolderPath = '') {
+export async function getGroupsFromPath (targetFolderPath = '', sortOrder) {
   if (!targetFolderPath) {
     throw new Error(`${targetFolderPath} 位置不存在`)
   }
@@ -64,7 +64,7 @@ export async function getGroupsFromPath (targetFolderPath = '') {
         groupName: groupName
       }
     })
-    .sort((prev, next) => handleSort(prev, next, SORT_ORDER))
+    .sort((prev, next) => handleSort(prev, next, sortOrder))
 
   return groups
 }
