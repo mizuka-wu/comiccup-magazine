@@ -4,7 +4,7 @@
  */
 import fs from 'fs'
 import _path from 'path'
-import { PAGE_POSITION, PAGE_COLUMN, PAGE_ROW, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG } from './consts'
+import { PAGE_POSITION, PAGE_COLUMN, PAGE_ROW, NAME_REG, GROUP_ID_REG, BOOK_NAME_REG, SORT_ORDER } from './consts'
 import { handleSort, getGroupPositon } from './utils'
 
 const EACH_PAGE_SIZE = PAGE_COLUMN * PAGE_ROW
@@ -64,7 +64,7 @@ export async function getGroupsFromPath (targetFolderPath = '') {
         groupName: groupName
       }
     })
-    .sort(handleSort)
+    .sort((prev, next) => handleSort(prev, next, SORT_ORDER))
 
   return groups
 }

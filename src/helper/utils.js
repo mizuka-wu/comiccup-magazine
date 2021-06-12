@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { SORT_ORDER, GROUP_ID_REG } from './consts'
+import { GROUP_ID_REG, SORT_ORDER } from './consts'
 
 export function getGroupPositon (index) {
   return index % 2 ? 'right' : 'left'
@@ -39,7 +39,7 @@ export function getPageGroupName (pageGroup) {
 /**
  * sort规则
  */
-export function handleSort (prev, next) {
+export function handleSort (prev, next, sortOrder = SORT_ORDER) {
   const prevReg = prev.groupId.match(GROUP_ID_REG)
   const nextReg = next.groupId.match(GROUP_ID_REG)
   if (prevReg && nextReg) {
@@ -49,7 +49,7 @@ export function handleSort (prev, next) {
       const [_next, nextAreaId, nextAreaOrder] = nextReg
     // 不同区域
     if (prevAreaId !== nextAreaId) {
-      return SORT_ORDER.indexOf(prevAreaId) - SORT_ORDER.indexOf(nextAreaId)
+      return sortOrder.indexOf(prevAreaId) - sortOrder.indexOf(nextAreaId)
     } else {
       // 同区域
       return (+prevAreaOrder) - (+nextAreaOrder)

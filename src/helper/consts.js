@@ -20,8 +20,8 @@ export const FOLDER_NAME = '场刊脚本'
 /**
  * 社团号 全名，社团名， 摊位名
  */
-export const NAME_REG = /\(([Ω\u4e00-\u9fa5A-Z]\d+-?[Ω\u4e00-\u9fa5A-Z]?\d+)\)\[(.*?)\](.*)/
-export const GROUP_ID_REG = /([Ω\u4e00-\u9fa5A-Z])(\d*)/
+export const NAME_REG = /\((\D\d+-?\D?\d+)\)\[(.*?)\](.*)/
+export const GROUP_ID_REG = /(\D)(\d*)/
 
 /**
  * 名字和类型
