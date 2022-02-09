@@ -66,7 +66,10 @@
           <el-form-item label="社团名字">{{ previewBook.stallId }}{{ previewBook.stallName }}</el-form-item>
           <el-form-item label="类型">{{ previewBook.type }}</el-form-item>
           <el-form-item label="本子名">{{ previewBook.name }}</el-form-item>
-          <el-form-item label="原始文件路径">{{ previewBook.path }}</el-form-item>
+          <el-form-item label="原始文件路径">
+            <div style="font-size: 8px;">{{ previewBook.path }}</div>
+            <img style="width: 100%;height: 100%" :src="`local-resource://${previewBook.path}`" />
+          </el-form-item>
         </el-form>
       </div>
     </el-aside>
@@ -180,7 +183,7 @@ export default {
             type: 'success'
           })
             .then(() => {
-            // 打开导出的文件夹
+              // 打开导出的文件夹
               shell.openPath(outputPath)
             })
             .catch(e => null)
@@ -278,6 +281,10 @@ body,
   overflow: auto;
   padding-top: 4px;
   box-sizing: border-box;
+  .el-form-item {
+    font-size: 10px!important;
+    margin-bottom: 0px !important;
+  }
 }
 
 .order {
