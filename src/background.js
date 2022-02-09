@@ -13,6 +13,18 @@ ElectronStore.initRenderer()
 
 let lastSelectedPath = app.getPath('downloads')
 
+function registerLocalResourceProtocol () {
+  protocol.registerFileProtocol('local-resource', (request, callback) => {
+    const url = request.url.replace(/^local-resource:\/\//, '')
+    const decodedUrl = decodeURIComponent(url)
+    try {
+      return callback(decodedUrl)
+    } catch (error) {
+      console.error('ERROR: registerLocalResourceProtocol: Could not get file path:', error)
+    }
+  })
+}
+
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -122,6 +134,7 @@ app.on('ready', async () => {
     }
   }
   createWindow()
+  registerLocalResourceProtocol()
 })
 
 // Exit cleanly on request from parent process in development mode.
