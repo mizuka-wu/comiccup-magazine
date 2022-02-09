@@ -112,11 +112,15 @@ export default {
     z-index: 1;
     padding: 4px;
     box-sizing: border-box;
-    font-size: 10px;
+    font-size: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     white-space: break-spaces;
+    * {
+      text-shadow: 0px 0px 3px #fff;
+      font-weight: 600;
+    }
   }
   .background {
     position: absolute;
@@ -127,7 +131,6 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 0;
-    opacity: 0.2;
   }
 }
 </style>
