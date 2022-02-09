@@ -36,10 +36,10 @@
       </div>
     </el-main>
     <el-aside class="options">
-      <h2>脚本配置</h2>
+      <h4>脚本配置</h4>
       <el-form :model="scriptOptions" label-position="left" label-width="100px" size="mini">
         <el-form-item label="容器名">
-          <el-input v-model="scriptOptions.containerName"></el-input>
+          <el-input v-model="scriptOptions.containerName" size="mini"></el-input>
           <span style="color: #cccccc">
             在psd模版内的分组名
             <el-button type="text" @click="getContainerName">智能识别</el-button>
@@ -48,7 +48,11 @@
         <el-form-item label="自动导入图片">
           <el-checkbox v-model="scriptOptions.photo"></el-checkbox>
         </el-form-item>
+        <el-form-item label="格子间距像素">
+          <el-input-number size="mini" controls-position="right" v-model="scriptOptions.CELL_WIDTH_OFFSET" :precision="0" />
+        </el-form-item>
       </el-form>
+      <br/>
       <div>
         <el-button :disabled="active !== 2" @click="saveDir" size="mini" type="primary">生成脚本</el-button>
         <el-popconfirm @confirm="restart" title="当前编辑状态将丢失，继续？">
@@ -107,7 +111,8 @@ export default {
     return {
       scriptOptions: {
         containerName: '组1',
-        photo: true
+        photo: true,
+        CELL_WIDTH_OFFSET: 372
       },
       previewBook: null,
       active: 0, // 0 未开始，1进行中，2预览可生成
@@ -186,7 +191,9 @@ export default {
               // 打开导出的文件夹
               shell.openPath(outputPath)
             })
-            .catch(e => null)
+            .catch(e => {
+              this.$message.error(e.message || e)
+            })
 
           // 回到重新选择页面
           this.restart()
@@ -270,7 +277,7 @@ body,
   padding: 8px;
   border-left: 1px solid #eaeaea;
   height: 100%;
-  width: 220px !important;
+  width: 260px !important;
   display: flex;
   flex-direction: column;
 }
@@ -281,10 +288,13 @@ body,
   overflow: auto;
   padding-top: 4px;
   box-sizing: border-box;
-  .el-form-item {
-    font-size: 10px!important;
-    margin-bottom: 0px !important;
+}
+
+.el-form-item {
+  * {
+    font-size: 10px !important;
   }
+  margin-bottom: 0px !important;
 }
 
 .order {
