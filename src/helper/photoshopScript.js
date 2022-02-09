@@ -4,6 +4,7 @@ export default function (meta, options = {}) {
     meta = JSON.stringify(meta, null, 2)
   }
   const { CONTAINER_NAME = '组1', photo = true } = options
+  console.log(options)
   return `/* eslint-disable no-undef */
 // 相关变量定义
 var ROW_NUMBER = 4 // 几行
