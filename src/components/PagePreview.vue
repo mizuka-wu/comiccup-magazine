@@ -24,7 +24,7 @@
               <div>{{ book.groupId }}</div>
               <div>{{ book.name }}</div>
             </div>
-            <img :src="`file://${encodeURIComponent(book.path)}`" class="background" />
+            <img :src="`local-resource://${encodeURIComponent(book.path)}`" class="background" />
           </div>
         </div>
       </div>
@@ -110,6 +110,13 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 1;
+    padding: 4px;
+    box-sizing: border-box;
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    white-space: break-spaces;
   }
   .background {
     position: absolute;
@@ -120,6 +127,7 @@ export default {
     width: 100%;
     height: 100%;
     z-index: 0;
+    opacity: 0.2;
   }
 }
 </style>
