@@ -3,18 +3,25 @@ export default function (meta, options = {}) {
   if (typeof meta === 'object') {
     meta = JSON.stringify(meta, null, 2)
   }
-  const { CONTAINER_NAME = '组1', photo = true } = options
-  console.log(options)
+  const {
+    CONTAINER_NAME = '组1',
+    photo = true,
+    CELL_WIDTH_OFFSET = 372,
+    CELL_HEIGHT_OFFSET = 616,
+    CELL_CROSS_PAGE_OFFSET = 1974,
+    FIRST_CELL_IMAGE_X = -1735,
+    FIRST_CELL_IMAGE_Y = -805
+  } = options
   return `/* eslint-disable no-undef */
 // 相关变量定义
 var ROW_NUMBER = 4 // 几行
 var COL_EACH_ROW = 5 // 每行几个格子
-var CELL_WIDTH_OFFSET = 372 // 每个格子的横向偏移量
-var CELL_HEIGHT_OFFSET = 616 // 每个格子的纵向偏移量
-var CELL_CROSS_PAGE_OFFSET = 1974 // 跨页偏移量
+var CELL_WIDTH_OFFSET = ${CELL_WIDTH_OFFSET} // 每个格子的横向偏移量
+var CELL_HEIGHT_OFFSET = ${CELL_HEIGHT_OFFSET} // 每个格子的纵向偏移量
+var CELL_CROSS_PAGE_OFFSET = ${CELL_CROSS_PAGE_OFFSET} // 跨页偏移量
 // 这个凭经验了 需要更好的找中心点方案
-var FIRST_CELL_IMAGE_X = -1735 // 第一个需要填入的格子的中心点位置X 310
-var FIRST_CELL_IMAGE_Y = -805 // 第一个需要填入的格子的中心点位置Y 705
+var FIRST_CELL_IMAGE_X = ${FIRST_CELL_IMAGE_X} // 第一个需要填入的格子的中心点位置X 310
+var FIRST_CELL_IMAGE_Y = ${FIRST_CELL_IMAGE_Y} // 第一个需要填入的格子的中心点位置Y 705
 var CELL_IMAGE_WIDTH = ${CELL_IMAGE_WIDTH} // 每张图片的宽度
 var CELL_IMAGE_HEIGHT = ${CELL_IMAGE_HEIGHT} // 每张图片的高度
 var IMAGE_FILES_SETS_NAME = '本子封面'

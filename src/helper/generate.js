@@ -111,7 +111,8 @@ export default async function (pageGroups, targetDir, options = {}) {
     const scriptFile = fs.openSync(_path.join(dirName, 'comiccup.jsx'), 'w')
     const scriptContent = generatePhotoshopScript(metaInfoConfig, {
       photo: options.photo,
-      CONTAINER_NAME: options.containerName
+      CONTAINER_NAME: options.containerName,
+      ...options
     })
     fs.writeFileSync(scriptFile, scriptContent)
   }))
