@@ -33,7 +33,7 @@ export function getPageGroupName (pageGroup) {
   const firstBook = leftPage[0]
   const lastBook = rightPage.length ? rightPage[rightPage.length - 1] : leftPage[leftPage.length - 1]
 
-  return `${firstBook.groupId.split('-')[0]}-${lastBook.groupId.replace(/\d?-/, '')}`
+  return `${firstBook.groupId.split('-')[0]}-${lastBook.groupId.replace(/\d?-/, '')}(${leftPage.length + rightPage.length}本)`
 }
 
 /**
