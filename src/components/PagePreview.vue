@@ -13,7 +13,7 @@
             @mouseleave="$emit('preview')"
             @mouseover="$emit('preview', book)"
             :key="book.name + index"
-            :style="{ width: `${100 / PAGE_COLUMN}%` }"
+            :style="{ width: `${100 / PAGE_COLUMN}%`, height: '80px' }"
             class="book"
             v-for="(book, index) of page"
           >
