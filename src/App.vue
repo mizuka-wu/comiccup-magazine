@@ -48,8 +48,21 @@
         <el-form-item label="自动导入图片">
           <el-checkbox v-model="scriptOptions.photo"></el-checkbox>
         </el-form-item>
-        <el-form-item label="格子间距像素">
+        <el-form-item label="格子间距像素X">
           <el-input-number size="mini" controls-position="right" v-model="scriptOptions.CELL_WIDTH_OFFSET" :precision="0" />
+        </el-form-item>
+        <el-form-item label="格子间距像素Y">
+          <el-input-number size="mini" controls-position="right" v-model="scriptOptions.CELL_HEIGHT_OFFSET" :precision="0" />
+        </el-form-item>
+        <el-form-item label="页面间距">
+          <el-input-number size="mini" controls-position="right" v-model="scriptOptions.CELL_CROSS_PAGE_OFFSET" :precision="0" />
+        </el-form-item>
+
+        <el-form-item label="第一格X坐标">
+          <el-input-number size="mini" controls-position="right" v-model="scriptOptions.FIRST_CELL_IMAGE_X" :precision="0" />
+        </el-form-item>
+        <el-form-item label="第一格Y坐标">
+          <el-input-number size="mini" controls-position="right" v-model="scriptOptions.FIRST_CELL_IMAGE_Y" :precision="0" />
         </el-form-item>
       </el-form>
       <br/>
@@ -112,7 +125,11 @@ export default {
       scriptOptions: {
         containerName: '组1',
         photo: true,
-        CELL_WIDTH_OFFSET: 372
+        CELL_WIDTH_OFFSET: 372,
+        CELL_HEIGHT_OFFSET: 616,
+        CELL_CROSS_PAGE_OFFSET: 1974,
+        FIRST_CELL_IMAGE_X: -1735,
+        FIRST_CELL_IMAGE_Y: -805
       },
       previewBook: null,
       active: 0, // 0 未开始，1进行中，2预览可生成
@@ -135,7 +152,11 @@ export default {
           this.active++
         } catch (e) {
           console.error(e)
-          this.$message.error(e.message || e)
+          this.$notify.error({
+            title: '错误',
+            message: e.message || e,
+            duration: 0
+          })
           this.restart()
         }
       }
@@ -192,14 +213,22 @@ export default {
               shell.openPath(outputPath)
             })
             .catch(e => {
-              this.$message.error(e.message || e)
+              this.$notify.error({
+                title: '错误',
+                message: e.message || e,
+                duration: 0
+              })
             })
 
           // 回到重新选择页面
           this.restart()
         } catch (e) {
           loading.close()
-          this.$message.error(e.message || e)
+          this.$notify.error({
+            title: '错误',
+            message: e.message || e,
+            duration: 0
+          })
           console.error(e)
         }
       }, 500)
