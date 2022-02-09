@@ -13,14 +13,18 @@
             @mouseleave="$emit('preview')"
             @mouseover="$emit('preview', book)"
             :key="book.name + index"
-            :style="{ width: `${100 / PAGE_COLUMN}%`, height: '80px' }"
+            :style="{
+              width: `${100 / PAGE_COLUMN}%`,
+              height: '80px',
+            }"
             class="book"
             v-for="(book, index) of page"
           >
-            <div>
+            <div class="info">
               <div>{{ book.groupId }}</div>
               <div>{{ book.name }}</div>
             </div>
+            <img :src="`file://${encodeURIComponent(book.path)}`" class="background" />
           </div>
         </div>
       </div>
@@ -95,5 +99,27 @@ export default {
   word-break: break-all;
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
+
+  .info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
 }
 </style>
