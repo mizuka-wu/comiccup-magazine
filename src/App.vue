@@ -83,6 +83,12 @@
             type="danger"
           >重新选择</el-button>
         </el-popconfirm>
+        <el-button
+            size="mini"
+            @click="reset"
+            type="text"
+            style="margin-left: 4px"
+          >参数重制</el-button>
       </div>
       <div class="preview">
         <el-form v-if="previewBook" size="mini">
@@ -120,6 +126,16 @@ const store = new Store({
   }
 })
 
+const DEFAULT_VALUE = {
+  CELL_WIDTH_OFFSET: 372,
+  CELL_HEIGHT_OFFSET: 616,
+  CELL_CROSS_PAGE_OFFSET: 1974,
+  FIRST_CELL_IMAGE_X: -1735,
+  FIRST_CELL_IMAGE_Y: -805,
+  CELL_IMAGE_WIDTH: 328,
+  CELL_IMAGE_HEIGHT: 437
+}
+
 export default {
   name: 'App',
   components: {
@@ -132,13 +148,7 @@ export default {
       scriptOptions: {
         containerName: '组1',
         photo: true,
-        CELL_WIDTH_OFFSET: 372,
-        CELL_HEIGHT_OFFSET: 616,
-        CELL_CROSS_PAGE_OFFSET: 1974,
-        FIRST_CELL_IMAGE_X: -1735,
-        FIRST_CELL_IMAGE_Y: -805,
-        CELL_IMAGE_WIDTH: 328,
-        CELL_IMAGE_HEIGHT: 437,
+        ...DEFAULT_VALUE,
         ...scriptOptions
       },
       previewBook: null,
@@ -148,6 +158,12 @@ export default {
     }
   },
   methods: {
+    reset () {
+      this.scriptOptions = {
+        ...this.scriptOptions,
+        ...DEFAULT_VALUE
+      }
+    },
     /**
      * 打开文件夹
      */
