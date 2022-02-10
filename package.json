@@ -3,7 +3,10 @@
   "version": "2.1.3",
   "author": "水华",
   "description": "cp场刊脚本生成客户端",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mizuka-wu/comiccup-magazine.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -17,6 +20,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "electron-store": "^8.0.0",
+    "electron-updater": "^4.6.5",
     "element-ui": "^2.15.2",
     "escape-path-with-spaces": "^1.0.0",
     "img-type": "^0.1.16",

@@ -1,4 +1,4 @@
-import { CELL_IMAGE_HEIGHT, CELL_IMAGE_WIDTH, BODY_NAME } from './consts'
+import { BODY_NAME } from './consts'
 export default function (meta, options = {}) {
   if (typeof meta === 'object') {
     meta = JSON.stringify(meta, null, 2)
@@ -10,7 +10,9 @@ export default function (meta, options = {}) {
     CELL_HEIGHT_OFFSET = 616,
     CELL_CROSS_PAGE_OFFSET = 1974,
     FIRST_CELL_IMAGE_X = -1735,
-    FIRST_CELL_IMAGE_Y = -805
+    FIRST_CELL_IMAGE_Y = -805,
+    CELL_IMAGE_WIDTH = 328,
+    CELL_IMAGE_HEIGHT = 437
   } = options
   return `/* eslint-disable no-undef */
 // 相关变量定义

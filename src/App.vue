@@ -36,7 +36,7 @@
       </div>
     </el-main>
     <el-aside class="options">
-      <h4>脚本配置</h4>
+      <b>脚本配置</b>
       <el-form :model="scriptOptions" label-position="left" label-width="100px" size="mini">
         <el-form-item label="容器名">
           <el-input v-model="scriptOptions.containerName" size="mini"></el-input>
@@ -63,6 +63,12 @@
         </el-form-item>
         <el-form-item label="第一格Y坐标">
           <el-input-number size="mini" controls-position="right" v-model="scriptOptions.FIRST_CELL_IMAGE_Y" :precision="0" />
+        </el-form-item>
+        <el-form-item label="图片高度">
+          <el-input-number size="mini" controls-position="right" v-model="scriptOptions.CELL_IMAGE_WIDTH" :precision="0" />
+        </el-form-item>
+        <el-form-item label="图片宽度">
+          <el-input-number size="mini" controls-position="right" v-model="scriptOptions.CELL_IMAGE_HEIGHT" :precision="0" />
         </el-form-item>
       </el-form>
       <br/>
@@ -121,6 +127,7 @@ export default {
     PagePreview
   },
   data () {
+    const scriptOptions = JSON.parse(localStorage.getItem('scriptOptions'))
     return {
       scriptOptions: {
         containerName: '组1',
@@ -129,7 +136,10 @@ export default {
         CELL_HEIGHT_OFFSET: 616,
         CELL_CROSS_PAGE_OFFSET: 1974,
         FIRST_CELL_IMAGE_X: -1735,
-        FIRST_CELL_IMAGE_Y: -805
+        FIRST_CELL_IMAGE_Y: -805,
+        CELL_IMAGE_WIDTH: 328,
+        CELL_IMAGE_HEIGHT: 437,
+        ...scriptOptions
       },
       previewBook: null,
       active: 0, // 0 未开始，1进行中，2预览可生成
@@ -271,6 +281,9 @@ export default {
   watch: {
     groupOrder (groupOrder) {
       store.set('groupOrder', groupOrder)
+    },
+    scriptOptions (options) {
+      localStorage.setItem('scriptOptions', JSON.stringify(options))
     }
   }
 }

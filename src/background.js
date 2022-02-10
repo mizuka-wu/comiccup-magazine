@@ -6,6 +6,7 @@ import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import ElectronStore from 'electron-store'
 import { BODY_NAME } from './helper/consts'
+import { autoUpdater } from 'electron-updater'
 import PSD from 'psd.js'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -132,6 +133,8 @@ app.on('ready', async () => {
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     }
+  } else {
+    autoUpdater.checkForUpdatesAndNotify()
   }
   createWindow()
   registerLocalResourceProtocol()

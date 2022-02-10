@@ -3,6 +3,7 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true,
       builderOptions: {
+        publish: ['github'],
         win: {
           target: 'portable'
         }
