@@ -5,7 +5,7 @@
  */
 import fs from 'fs'
 import _path from 'path'
-import FileType from 'file-type'
+import archiveType from 'image-type'
 import Jimp from 'jimp'
 import escape from 'escape-path-with-spaces'
 import { FOLDER_NAME, PAGE_POSITION, EMPTY_PNG, CELL_IMAGE_WIDTH } from './consts'
@@ -58,7 +58,7 @@ export default async function (pageGroups, targetDir, options = {}) {
           // 输出空白图片
           buffer = Buffer.from(EMPTY_PNG, 'base64')
         } else {
-          const fileTypeResult = await FileType.fileTypeFromBuffer(buffer)
+          const fileTypeResult = await archiveType(buffer)
           const fileType = fileTypeResult.ext
           targetPathName = targetPathName + fileType
 
