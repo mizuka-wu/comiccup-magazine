@@ -23,7 +23,7 @@
     "electron-updater": "^4.6.5",
     "element-ui": "^2.15.2",
     "escape-path-with-spaces": "^1.0.0",
-    "img-type": "^0.1.16",
+    "file-type": "^18.2.1",
     "jimp": "^0.16.1",
     "psd.js": "^3.3.17",
     "vue": "^2.6.11",
