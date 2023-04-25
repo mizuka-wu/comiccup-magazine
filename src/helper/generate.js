@@ -5,7 +5,7 @@
  */
 import fs from 'fs'
 import _path from 'path'
-import archiveType from 'image-type'
+import binaryType from 'binary-type'
 import Jimp from 'jimp'
 import escape from 'escape-path-with-spaces'
 import { FOLDER_NAME, PAGE_POSITION, EMPTY_PNG, CELL_IMAGE_WIDTH } from './consts'
@@ -58,8 +58,8 @@ export default async function (pageGroups, targetDir, options = {}) {
           // 输出空白图片
           buffer = Buffer.from(EMPTY_PNG, 'base64')
         } else {
-          const fileTypeResult = await archiveType(buffer)
-          const fileType = fileTypeResult.ext
+          const fileTypeResult = binaryType.guess(buffer)
+          const fileType = fileTypeResult || 'jpg'
           targetPathName = targetPathName + fileType
 
           // 如果是出图模式，会先生成一张原图 + 导入的图，否则直接copy到目录即可
